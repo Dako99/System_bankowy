@@ -3,5 +3,5 @@
 
 Etap 3
 
-Dokumentacją LaTeX:
+Dokumentacja LaTeX:
 https://www.overleaf.com/read/vmdzjdptkgns
