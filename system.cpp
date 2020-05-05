@@ -5,24 +5,47 @@ using namespace std;
 
 //metody:
 
+string Uzytkownik::Haslo()
+{
+	return this->haslo;
+};
+string Uzytkownik::Login()
+{
+	return this->login;
+};
+string Uzytkownik::Imie()
+{
+	return this->imie;
+};
+string Uzytkownik::Nazwisko()
+{
+	return this->nazwisko;
+};
+double Uzytkownik::Pesel()
+{
+	return this->pesel;
+};
+
+
+
 void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 	cout << "Podaj imie: " << endl;
-	cin >> imie;
+	cin >> this->imie;
 	cout << "Podaj nazwisko: " << endl;
-	cin >> nazwisko;
+	cin >> this->nazwisko;
 	cout << "Podaj pesel: " << endl;
-	cin >> pesel;
+	cin >> this->pesel;
 	cout << "(Nie wiem jak dodac date urodzenia)" << endl;
 	cout << "Podaj login: " << endl;
-	cin >> login;
+	cin >> this->login;
 	cout << "Podaj haslo: (Fajnie gdyby nie bylo go widac przy wprowadzaniu)" << endl;
-	cin >> haslo;
+	cin >> this->haslo;
 	cout << "Potwierdz haslo: " << endl;
 	cin >> hasloPot;
 	while (haslo != hasloPot) {
 		cout << "Hasla nie sa identyczne, wpisz ponownie" << endl;
 		cout << "Haslo: " << endl;
-		cin >> haslo;
+		cin >> this->haslo;
 		cout << "Potwierdz haslo: " << endl;
 		cin >> hasloPot;
 	}
@@ -31,11 +54,11 @@ void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 
 	ofstream plik("BazaDanych.txt");
 
-	plik << imie << endl;
-	plik << nazwisko << endl;
-	plik << pesel << endl;
-	plik << login << endl;
-	plik << haslo << endl;
+	plik << this->imie << endl;
+	plik << this->nazwisko << endl;
+	plik << this->pesel << endl;
+	plik << this->login << endl;
+	plik << this->haslo << endl;
 
 	plik.close();
 }
@@ -89,11 +112,11 @@ void Uzytkownik::zplku() {
 
 	if (mojStrumien)
 	{
-		mojStrumien << "Imie: " << imie << endl;
-		mojStrumien << "Nazwisko: " << nazwisko << endl;
-		mojStrumien << "Pesel: " << pesel << endl;
-		mojStrumien << "Nazwa uzytkownika: " << login << endl;
-		mojStrumien << "Haslo: " << haslo << endl;
+		mojStrumien << "Imie: " << this->imie << endl;
+		mojStrumien << "Nazwisko: " << this->nazwisko << endl;
+		mojStrumien << "Pesel: " << this->pesel << endl;
+		mojStrumien << "Nazwa uzytkownika: " << this->login << endl;
+		mojStrumien << "Haslo: " << this->haslo << endl;
 	}
 	else
 	{

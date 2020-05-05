@@ -1,13 +1,37 @@
 #include "system.h"
-//#include <Windows.h>		//zamina koloru
+//#include <Windows.h>		//zamina koloru, czas
 
 using namespace std;
 
 int main() {
 
+	setlocale(LC_ALL, "polish");		//jezyk polski
+
 	vector <Uzytkownik> lista;
 	Uzytkownik nowy;				//tworzy obiekt
 	string login, haslo;
+
+
+	cout << "£adowanie Systemu Bankowego" << endl;
+
+	//fake progres
+	//float progres = 0.0;
+	//while (progres < 1.0) {
+	//	int bar = 50;
+	//	cout << "[";
+	//	int pos = bar * progres;
+	//	for (int i = 0; i < bar; ++i) {
+	//		if (i < pos) cout << "=";
+	//		else if (i == pos) cout << ">";
+	//		else cout << " ";
+	//	}
+	//	cout << "] " << int(progres * 101.0) << " %\r";
+	//	cout.flush();
+	//	progres += 0.001;		//przykladowow
+	//}
+
+	cout << endl;
+
 
 	int menu_c = 0;					//menu glowne
 	int menu_min = 0, menu_max = 2;
@@ -16,6 +40,7 @@ int main() {
 	int m_min = 0, m_max = 8, in;
 
 	int input;
+	
 	while (true) {
 		system("cls");
 		/*HANDLE kolor;                             //zamina koloru
@@ -26,11 +51,11 @@ int main() {
 		cout << "Aby wybrac opcje przy ktorej jest wskaznik nacisnij Enter" << endl;
 		cout << (menu_c == 0 ? "> " : "  ") << "Zaloguj sie do systemu" << endl;
 		cout << (menu_c == 1 ? "> " : "  ") << "Zaloz konto" << endl;
-		
+
 		cout << (menu_c == 2 ? "> " : "  ") << "Zamknij program" << endl;
 
-
 		input = _getch();
+
 		if (input == 0 || input == 224)							//numpad lub strzalki
 			switch (_getch()) {
 			case 80: if (menu_c < menu_max) menu_c++; break;	//UP
@@ -81,6 +106,7 @@ int main() {
 									break;
 								case 1:
 									cout << "Historia operacji na koncie jest pusta" << endl;
+									system("PAUSE");
 									break;
 								case 2:
 									break;
@@ -103,11 +129,11 @@ int main() {
 								}
 						}
 					}
-					
+
 				}
 				cout << "Niepoprawne login lub haslo" << endl;
 				system("PAUSE");
-					// dodac: ponow probe, wyjdz 
+				// dodac: ponow probe, wyjdz 
 				break;
 
 			case 1:		//za³ó¿ konto

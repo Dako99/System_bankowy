@@ -12,11 +12,12 @@ using namespace std;
 class Uzytkownik {
 
 	//atrybuty
-public:			//protected:?
-		
+public:			
+//protected:	?
+//private:		- nie dziala z aktualnym mainem
 	string imie;
 	string nazwisko;
-	int pesel;
+	double pesel;
 	struct data_urodzenia {
 		int dzien;
 		int miesiac;
@@ -30,6 +31,11 @@ public:			//protected:?
 public:
 	//Uzytkownik();			//konstruktor? 
 	//~Uzytkownik()			//destruktor?
+	string Imie();
+	string Nazwisko();
+	double Pesel();
+	string Login();
+	string Haslo();
 	void dodaj();			//dodawanie konta
 	void ZmianaHasla();
 	void zplku();
