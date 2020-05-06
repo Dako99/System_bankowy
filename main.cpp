@@ -1,5 +1,7 @@
 #include "system.h"
+
 //#include <Windows.h>		//zamina koloru, czas
+//#include <time.h>			//czas
 
 using namespace std;
 
@@ -10,13 +12,12 @@ int main() {
 	vector <Uzytkownik> lista;
 	Uzytkownik nowy;				//tworzy obiekt
 	string login, haslo;
+	
 
-
-	cout << "£adowanie Systemu Bankowego" << endl;
-
-	//fake progres
+	cout << "£adowanie Systemu Bankowego" << endl;	//fake progres
+	
 	//float progres = 0.0;
-	//while (progres < 1.0) {
+ //	while (progres < 1.0) {
 	//	int bar = 50;
 	//	cout << "[";
 	//	int pos = bar * progres;
@@ -27,11 +28,13 @@ int main() {
 	//	}
 	//	cout << "] " << int(progres * 101.0) << " %\r";
 	//	cout.flush();
-	//	progres += 0.001;		//przykladowow
+	//	progres += 0.005;		//przykladowow
 	//}
-
 	cout << endl;
 
+	//srand(time(NULL));
+	//int losowa = rand() % 1000 + 0;
+	//= ((float)rand() / RAND_MAX) * 1;
 
 	int menu_c = 0;					//menu glowne
 	int menu_min = 0, menu_max = 2;
@@ -58,8 +61,8 @@ int main() {
 
 		if (input == 0 || input == 224)							//numpad lub strzalki
 			switch (_getch()) {
-			case 80: if (menu_c < menu_max) menu_c++; break;	//UP
-			case 72: if (menu_c > menu_min) menu_c--; break;	//DOWN	
+			case 80: if (menu_c < menu_max) menu_c++; else cout << "\a"; break;	//UP
+			case 72: if (menu_c > menu_min) menu_c--; else cout << "\a"; break;	//DOWN	
 			}
 		if (input == 13)										//Enter
 			switch (menu_c) {
@@ -92,8 +95,8 @@ int main() {
 							in = _getch();
 							if (input == 0 || in == 224)
 								switch (_getch()) {
-								case 80: if (menu_d < m_max) menu_d++; break;
-								case 72: if (menu_d > m_min) menu_d--; break;
+								case 80: if (menu_d < m_max) menu_d++; else cout << "\a"; break;
+								case 72: if (menu_d > m_min) menu_d--; else cout << "\a"; break;
 								}
 							if (in == 13)
 								switch (menu_d) {

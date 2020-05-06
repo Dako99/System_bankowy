@@ -1,5 +1,6 @@
 #include "system.h"
-
+#include <fstream>			//obsluga plikow
+#include <string>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ string Uzytkownik::Nazwisko()
 {
 	return this->nazwisko;
 };
-double Uzytkownik::Pesel()
+string Uzytkownik::Pesel()
 {
 	return this->pesel;
 };
@@ -35,7 +36,19 @@ void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 	cin >> this->nazwisko;
 	cout << "Podaj pesel: " << endl;
 	cin >> this->pesel;
-	cout << "(Nie wiem jak dodac date urodzenia)" << endl;
+
+	if (stod(pesel) < 100000 || stod(pesel) > 10000000000) cout << "\a" << "Nieprawidlowy nr pesel" << endl;
+	
+	if (stod(pesel) > 100000) {
+		//PAMIETAC O ROCZNIKU 00 and up, na razie nie wspiera
+		cout << "*dla testow*" << endl;
+		cout << "rok: " << stoi(pesel.substr(0, 2)) << endl;
+		cout << "msc: " << stoi(pesel.substr(2, 2)) << endl;
+		cout << "dzien: " << stoi(pesel.substr(4, 2)) << endl;
+		cout << "*dla testow*" << endl << endl;
+	}
+	//obsluzyc date urodzenia, w razie bledow cofnac sie
+
 	cout << "Podaj login: " << endl;
 	cin >> this->login;
 	cout << "Podaj haslo: (Fajnie gdyby nie bylo go widac przy wprowadzaniu)" << endl;
@@ -52,7 +65,7 @@ void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 	cout << "Konto zostalo utworzone pomyslnie" << endl;
 	system("PAUSE");
 
-	ofstream plik("BazaDanych.txt");
+	ofstream plik("BazaDanych.txt", fstream::out | fstream::app);		//bez out i app nie bedzie dzialac
 
 	plik << this->imie << endl;
 	plik << this->nazwisko << endl;
@@ -125,6 +138,53 @@ void Uzytkownik::zplku() {
 
 
 }
+
+void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat, wyplat itd.
+{
+	string HASLO;
+	cout << "W celu potwiedzenia wpisz haslo: ";
+	cin >> HASLO;
+	while (HASLO != this->haslo)
+	{
+		cout << "Podane haslo jest bledne, sprobuj ponownie: ";
+		cin >> HASLO;
+	}
+};
+
+
+
+float Konto::Saldo()
+{
+	return this->saldo;
+};
+void Konto::Wplata()
+{
+	float wplata;
+	cout << "Podaj kwote jaka chcesz wyplacic";
+	cin >> wplata;
+	while (wplata < 0)
+	{
+		cout << "Podana kwota jest ujemna, wprowadz inna: ";
+		cin >> wplata;
+	}
+	this->saldo += wplata;
+	cout << "Pomyslnie wplacono pieniadze.";
+};
+void Konto::Wyplata()
+{
+	float wyplata;
+	cout << "Podaj kwote jaka chcesz wyplacic";
+	cin >> wyplata;
+	while ((this->saldo - this->kasa) < 0 || wyplata > 0)
+	{
+		cout << "Podana kwota powoduje debet, badz jest ujemna, wprowadz inna: ";
+		cin >> wyplata;
+	}
+	this->saldo -= wyplata;
+	cout << "Pomyslnie wyplacono pieniadze.";
+};
+
+
 
 void Pracownik::dodaj() {
 
