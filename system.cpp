@@ -139,6 +139,7 @@ void Uzytkownik::zplku() {
 
 }
 
+
 void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat, wyplat itd.
 {
 	string HASLO;
@@ -157,8 +158,10 @@ float Konto::Saldo()
 {
 	return this->saldo;
 };
+
+
 void Konto::Wplata()
-{
+{				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
 	float wplata;
 	cout << "Podaj kwote jaka chcesz wyplacic";
 	cin >> wplata;
@@ -168,10 +171,13 @@ void Konto::Wplata()
 		cin >> wplata;
 	}
 	this->saldo += wplata;
+	//saldo = saldo + kwota;  //czy moze tak?
 	cout << "Pomyslnie wplacono pieniadze.";
 };
+
+
 void Konto::Wyplata()
-{
+{				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
 	float wyplata;
 	cout << "Podaj kwote jaka chcesz wyplacic";
 	cin >> wyplata;

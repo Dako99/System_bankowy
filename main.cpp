@@ -5,17 +5,19 @@
 
 using namespace std;
 
+
 int main() {
 
 	setlocale(LC_ALL, "polish");		//jezyk polski
 
 	vector <Uzytkownik> lista;
 	Uzytkownik nowy;				//tworzy obiekt
+	Odbiorca nowy_odbiorca;
 	string login, haslo;
-	
+
 
 	cout << "£adowanie Systemu Bankowego" << endl;	//fake progres
-	
+
 	//float progres = 0.0;
  //	while (progres < 1.0) {
 	//	int bar = 50;
@@ -43,7 +45,7 @@ int main() {
 	int m_min = 0, m_max = 8, in;
 
 	int input;
-	
+
 	while (true) {
 		system("cls");
 		/*HANDLE kolor;                             //zamina koloru
@@ -113,9 +115,36 @@ int main() {
 									break;
 								case 2:
 									break;
-								case 3:
+								case 3: //dodaj odbiorce przelewu
+									cout << "Podaj nazwe odbiorcy (jednym slowem)"; //w przypadku kilku s³ów nie zadzia³a
+									cin >> nowy_odbiorca.nazwa;
+									cout << "Podaj numer konta odbiorcy";
+									cin >> nowy_odbiorca.numer_konta;
+									lista[i].odbiorcy.push_back(nowy_odbiorca);
+									cout << endl;
+									cout << "Pelna lista odbiorcow:";
+									for (int j = 0; j < lista[i].odbiorcy.size(); j++) {
+										cout << lista[i].odbiorcy[j].nazwa << " " << lista[i].odbiorcy[j].numer_konta << endl;
+									}
 									break;
-								case 4:
+								case 4: //Zrob przelew
+									float kwota;
+									cout << "Podaj nazwe odbiorcy przelewu";
+									cin >> nowy_odbiorca.nazwa;
+									for (int j = 0; j < lista[i].odbiorcy.size(); j++) {
+										if (nowy_odbiorca.nazwa == lista[i].odbiorcy[j].nazwa)
+											nowy_odbiorca.numer_konta = lista[i].odbiorcy[j].numer_konta;
+									}
+									if (!nowy_odbiorca.numer_konta) {
+										cout << "Podaj numer konta odbiorcy";
+										cin >> nowy_odbiorca.numer_konta;
+									}
+
+									//przelew do odbiorcy
+									cout << "Podaj kwote, jaka chcesz przelac";
+									cin >> kwota;
+
+
 									break;
 								case 5:
 									break;

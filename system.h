@@ -13,7 +13,7 @@ class Uzytkownik {
 
 	//atrybuty
 public:
-	//private:	musi byæ ale nie dziala z aktualnym main.cpp
+//private:	//musi byæ ale nie dziala z aktualnym main.cpp
 	string imie;
 	string nazwisko;
 	string pesel; // lepiej niz double albo long, bo mo¿na 
@@ -29,6 +29,9 @@ public:
 	string login;
 	string haslo;
 	string hasloPot;
+
+	vector <Odbiorca> odbiorcy;
+
 
 	//metody
 public:
@@ -75,4 +78,12 @@ public:
 	void Wplata();
 	void Wyplata();
 
+};
+
+
+// utworzenie klasy odbiorca
+class Odbiorca {
+public: //tak, tak znowu ten public...
+	string nazwa;
+	int numer_konta;
 };
