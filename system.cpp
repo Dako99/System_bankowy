@@ -5,6 +5,23 @@
 using namespace std;
 
 //metody:
+//Konstruktor, destruktor i metody dostêpu do zmiennych danych konta
+
+//konstruktor do poprawy, pesel jako string
+Uzytkownik::Uzytkownik(string i, string n, string l, string h, double p, long double nr, float s)
+{
+	imie = i;
+	nazwisko = n;
+	login = l;
+	haslo = h;
+	pesel = p;
+	numer_konta = nr;
+	saldo = s;
+};
+
+Uzytkownik::~Uzytkownik()
+{
+};
 
 string Uzytkownik::Haslo()
 {
@@ -27,27 +44,66 @@ string Uzytkownik::Pesel()
 	return this->pesel;
 };
 
+// end
 
 
 void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
+	/*cout << "Nacisnij dowolny klawisz aby kontynuowac" << endl;
+	cout << "Nacisnij Esc aby anulowac" << endl;
+
+	int input = _getch();
+	if (input != 27) {*/
+
 	cout << "Podaj imie: " << endl;
 	cin >> this->imie;
 	cout << "Podaj nazwisko: " << endl;
 	cin >> this->nazwisko;
-	cout << "Podaj pesel: " << endl;
-	cin >> this->pesel;
 
-	if (stod(pesel) < 100000 || stod(pesel) > 10000000000) cout << "\a" << "Nieprawidlowy nr pesel" << endl;
-	
-	if (stod(pesel) > 100000) {
-		//PAMIETAC O ROCZNIKU 00 and up, na razie nie wspiera
-		cout << "*dla testow*" << endl;
-		cout << "rok: " << stoi(pesel.substr(0, 2)) << endl;
-		cout << "msc: " << stoi(pesel.substr(2, 2)) << endl;
-		cout << "dzien: " << stoi(pesel.substr(4, 2)) << endl;
+	do
+	{
+		cout << "Podaj pesel: " << endl;
+		cin >> this->pesel;
+
+		//poprawna d³ugosc nr pesel
+		while (stod(pesel) < 1000 || stod(pesel) > 100000000000) {
+			cout << "\a" << "Nieprawidlowy nr pesel" << endl;
+			cout << "Podaj pesel ponownie: " << endl;
+			cin >> this->pesel;
+		}
+
+		//obs³uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
+		int rk = stoi(pesel.substr(0, 2));
+		int msc = stoi(pesel.substr(2, 2));
+		int dz = stoi(pesel.substr(4, 2));
+
+		//ROCZNIK 00 and up
+		//Osoby urodzone w roku 2000 i póŸniej maj¹ powiêkszony numer miesi¹ca o liczbê 20
+
+		if ((13 > msc) && (msc > 0)) rk = rk + 1900;
+		else if ((33 > msc) && (msc > 20)) {
+			msc = (msc - 20);
+			rk = rk + 2000;
+			if (rk > (2020 - 18)) {
+				cout << "\a" << "Zalozyc konto moze tylko osoba pelnoletnia" << endl << endl;
+				dodaj();
+
+			}
+		}
+		else cout << endl << "Nieprawidlowy nr pesel (data)" << endl;
+
+		cout << endl << "*dla testow*" << endl;
+		cout << "rok: " << rk << endl;
+		cout << "msc: " << msc << endl;
+		cout << "dzien: " << dz << endl;
 		cout << "*dla testow*" << endl << endl;
-	}
-	//obsluzyc date urodzenia, w razie bledow cofnac sie
+
+		if ((33 < msc < 20) && (13 > msc > 0) && (32 > dz > 0)) {
+			Uzytkownik::data_urodzenia nowy = { rk, msc, dz };
+			//dz = this->data_urodzenia.dzien;
+			break;
+		}
+	} while (1);
+
 
 	cout << "Podaj login: " << endl;
 	cin >> this->login;
@@ -62,9 +118,18 @@ void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 		cout << "Potwierdz haslo: " << endl;
 		cin >> hasloPot;
 	}
-	cout << "Konto zostalo utworzone pomyslnie" << endl;
-	system("PAUSE");
 
+
+	cout << "Konto zostalo utworzone pomyslnie" << endl;
+
+	system("PAUSE");
+	//}
+
+}
+
+
+void Uzytkownik::Zapis()
+{
 	ofstream plik("BazaDanych.txt", fstream::out | fstream::app);		//bez out i app nie bedzie dzialac
 
 	plik << this->imie << endl;
@@ -72,20 +137,24 @@ void Uzytkownik::dodaj() {				//dodaje u¿ytkownika do systemu
 	plik << this->pesel << endl;
 	plik << this->login << endl;
 	plik << this->haslo << endl;
-
 	plik.close();
-}
+
+	cout << "Konto zostalo zapisane pomyslnie" << endl;
+};
+
+
+//poczatek obs³ugi has³a
 
 void Uzytkownik::ZmianaHasla()
 {
-	string test;					//int
-	string nowe_haslo;				//int
-	string nowe_haslo1;				//int
+	string test;					//int?
+	string nowe_haslo;				//int?
+	string nowe_haslo1;				//int?
 	int a = 0;
+
 	cout << "Podaj obecne haslo: ";
 	cin >> test;
-	while (test != this->haslo)
-	{
+	while (test != this->haslo) {
 		cout << "Podane haslo jest nieprawidlowe, wprowadz obecne haslo: ";
 		cin >> test;
 	}
@@ -114,31 +183,7 @@ void Uzytkownik::ZmianaHasla()
 		cout << "Haslo zostalo zmienione.\n";
 	}
 
-
 };
-
-
-void Uzytkownik::zplku() {
-
-	string const plik("BazaDanych.txt");
-	ofstream mojStrumien(plik.c_str());
-
-	if (mojStrumien)
-	{
-		mojStrumien << "Imie: " << this->imie << endl;
-		mojStrumien << "Nazwisko: " << this->nazwisko << endl;
-		mojStrumien << "Pesel: " << this->pesel << endl;
-		mojStrumien << "Nazwa uzytkownika: " << this->login << endl;
-		mojStrumien << "Haslo: " << this->haslo << endl;
-	}
-	else
-	{
-		cout << "B£¥D: nie mo¿na otworzyæ pliku." << endl;
-	}
-
-
-}
-
 
 void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat, wyplat itd.
 {
@@ -152,45 +197,104 @@ void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat
 	}
 };
 
+//koniec obs³ugi has³a
 
+void Uzytkownik::zplku() {
 
-float Konto::Saldo()
-{
-	return this->saldo;
+	string const plik("BazaDanych.txt");
+	ofstream mojStrumien(plik.c_str());
+
+	if (mojStrumien) {
+		mojStrumien << "Imie: " << this->imie << endl;
+		mojStrumien << "Nazwisko: " << this->nazwisko << endl;
+		mojStrumien << "Pesel: " << this->pesel << endl;
+		mojStrumien << "Nazwa uzytkownika: " << this->login << endl;
+		mojStrumien << "Haslo: " << this->haslo << endl;
+	}
+	else {
+		cout << "B£¥D: nie mo¿na otworzyæ pliku." << endl;
+	}
 };
 
 
-void Konto::Wplata()
+// Obs³uga kasy
+void Uzytkownik::Saldo()
+{
+	cout << "Twoj stan konta to: " << this->saldo << " zl" << endl;
+	system("PAUSE");
+};
+
+//float Konto::Saldo()
+//{
+//	return this->saldo;
+//};
+
+
+void Uzytkownik::Wplata()
 {				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
 	float wplata;
-	cout << "Podaj kwote jaka chcesz wyplacic";
+	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
 	cin >> wplata;
 	while (wplata < 0)
 	{
-		cout << "Podana kwota jest ujemna, wprowadz inna: ";
+		cout << "Podana kwota jest ujemna, wprowadz inna: " << endl;
 		cin >> wplata;
 	}
-	this->saldo += wplata;
-	//saldo = saldo + kwota;  //czy moze tak?
-	cout << "Pomyslnie wplacono pieniadze.";
+	this->saldo = this->saldo + wplata;
+	cout << "Pomyslnie wplacono pieniadze." << endl;
+	system("PAUSE");
 };
 
 
-void Konto::Wyplata()
-{				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
+//void Konto::Wplata()
+//{				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
+//	float wplata;
+//	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
+//	cin >> wplata;
+//	while (wplata < 0)
+//	{
+//		cout << "Podana kwota jest ujemna, wprowadz inna: " << endl;
+//		cin >> wplata;
+//	}
+//	this->saldo += wplata;
+//	//saldo = saldo + kwota;  //czy moze tak?
+//	cout << "Pomyslnie wplacono pieniadze." << endl;
+//  system("PAUSE");
+//};
+
+
+void Uzytkownik::Wyplata()
+{
 	float wyplata;
-	cout << "Podaj kwote jaka chcesz wyplacic";
+	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
 	cin >> wyplata;
-	while ((this->saldo - this->kasa) < 0 || wyplata > 0)
+	while ((this->saldo - wyplata) < 0 || wyplata < 0)
 	{
-		cout << "Podana kwota powoduje debet, badz jest ujemna, wprowadz inna: ";
+		cout << "Podana kwota powoduje debet, badz jest ujemna, wprowadz inna: " << endl;
 		cin >> wyplata;
 	}
-	this->saldo -= wyplata;
-	cout << "Pomyslnie wyplacono pieniadze.";
+	this->saldo = this->saldo - wyplata;
+	cout << "Pomyslnie wyplacono pieniadze." << endl;
+	system("PAUSE");
 };
 
 
+//void Konto::Wyplata()
+//{				//je¿eli u¿ytkownik ma kilka kont, to spytaæ na które konto
+//	float wyplata;
+//	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
+//	cin >> wyplata;
+//	while ((this->saldo - this->kasa) < 0 || wyplata > 0)
+//	{
+//		cout << "Podana kwota powoduje debet, badz jest ujemna, wprowadz inna: " << endl;
+//		cin >> wyplata;
+//	}
+//	this->saldo -= wyplata;
+//	cout << "Pomyslnie wyplacono pieniadze." << endl;
+//	system("PAUSE");
+//};
+
+// koniec obs³ugi kasy
 
 void Pracownik::dodaj() {
 
@@ -216,21 +320,12 @@ void Pracownik::zplku() {
 
 }
 
-
-// konstruktor
-
-//Uzytkownik::Uzytkownik() {}
-//
-//Uzytkownik(int..., string..., itd) {
-//	this->costam = costam;
-//	this->costam = costam;
-//	this->costaminnego = costaminnego;
-//}
-
-
-//destruktor
-/*
-Uzytkownik::~Uzytkownik() {
-	cout << "Czy ja mam co sprz¹taæ?" << endl;;
+Pracownik::Pracownik(string pL, string pH)
+{
+	pLogin = pL;
+	pHaslo = pH;
 }
-*/
+
+Pracownik::~Pracownik()
+{
+}
