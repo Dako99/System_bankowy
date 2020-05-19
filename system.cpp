@@ -137,10 +137,43 @@ void Uzytkownik::Zapis()
 	plik << this->pesel << endl;
 	plik << this->login << endl;
 	plik << this->haslo << endl;
+
 	plik.close();
 
 	cout << "Konto zostalo zapisane pomyslnie" << endl;
 };
+
+
+void Uzytkownik::Odczyt()
+{
+	fstream plik("BazaDanych.txt", fstream::in);		//bez out i app nie bedzie dzialac
+
+	if (plik.good() == false) {
+		cout << "Plik nie istnieje";
+		//exit(0);
+		//break;
+	}
+	else {
+		int aktualny_nr = 1;
+		string linia;
+		while (getline(plik, linia)) //(skad,gdzie) 0=nie uda³o sie pobrac
+		{
+
+			plik << this->imie;
+			plik << this->nazwisko;
+			plik << this->pesel;
+			plik << this->login;
+			plik << this->haslo;
+		}
+		plik.close();
+	}
+
+	
+
+	cout << "Konto zostalo zapisane pomyslnie" << endl;
+};
+
+
 
 
 //poczatek obs³ugi has³a
@@ -182,7 +215,7 @@ void Uzytkownik::ZmianaHasla()
 		this->haslo = nowe_haslo;
 		cout << "Haslo zostalo zmienione.\n";
 	}
-
+	system("PAUSE");
 };
 
 void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat, wyplat itd.

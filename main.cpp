@@ -114,19 +114,19 @@ int main() {
 									cout << "Data urodzenia: " << "<Trzeba dodac>" << endl;
 									system("PAUSE");
 									break;
-								case 1:
+								case 1: //historia operacji na koncie
 									cout << "Historia operacji na koncie jest pusta" << endl;
 									system("PAUSE");
 									break;
-								case 2:
+								case 2: //pokaz zaplanowane operacje
 
 									break;
-								case 3:  //ca³y case musi byæ w klamrze, bo inaczej nie zadzia³a
-								{
+								case 3:  //Dod, odbiorce przelewu
+								{ //ca³oœc w klamrze
 									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku s³ów nie zadzia³a
 									cin >> nowy_odbiorca.nazwa;
 
-									/*int zmienna = 0;
+									int zmienna = 0;
 									for (int j = 0; j < lista[i].odbiorcy.size(); j++) {
 										if (nowy_odbiorca.nazwa == lista[i].odbiorcy[j].nazwa) {
 											cout << "Podana nazwa jest juz zarezerwowana dla innego odbiorcy" << endl;
@@ -157,7 +157,7 @@ int main() {
 											cout << lista[i].odbiorcy[j].nazwa << " " << lista[i].odbiorcy[j].numer_konta << endl;
 										}
 										system("pause");
-									}*/
+									}
 								}
 								break;
 								case 4: //Zrob przelew
@@ -166,13 +166,13 @@ int main() {
 									cin >> nowy_odbiorca.nazwa;
 
 									int pomoc = 0;
-									/*for (int j = 0; j < lista[i].odbiorcy.size(); j++) {
+									for (int j = 0; j < lista[i].odbiorcy.size(); j++) {
 										if (nowy_odbiorca.nazwa == lista[i].odbiorcy[j].nazwa) {
 											nowy_odbiorca.numer_konta = lista[i].odbiorcy[j].numer_konta;
 											pomoc = 1;
 											break;
 										}
-								}*/
+								}
 
 								if (pomoc == 0) {
 									cout << "Podaj numer konta odbiorcy przelewu" << endl;
@@ -253,11 +253,11 @@ int main() {
 								system("PAUSE");
 								}
 							break;
-			case 5:
+			case 5: //Wyp³ata
 				lista[i].WpiszHaslo();
 				lista[i].Wyplata();
 				break;
-			case 6:
+			case 6:	//Wp³ata
 				lista[i].WpiszHaslo();
 				lista[i].Wplata();
 				break;
@@ -272,12 +272,24 @@ int main() {
 				haslo = "";
 				a = 1;
 				break;
-			case 9:	//wylogowanie i zamkniêcie
+			case 9:	//wylogowanie
+			{
 				a = 1;
 				login = "";
 				haslo = "";
+
+
+
+
+				
+									
+
+
+
+
+			}
 				break;
-			case 10:
+			case 10: //usun konto
 				lista[i].WpiszHaslo();
 				lista.erase(lista.begin() + i);
 				cout << "Pomyslnie usunieto konto" << endl;

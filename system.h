@@ -21,11 +21,11 @@ class Historia;	//work in progress
 class Uzytkownik {
 
 	//atrybuty
-		  //public:	//musi byæ ale nie dziala z aktualnym main.cpp
+
 private:
 
 	//dodanie listy odbiorców TO CHYBA DO system.cpp????
-	vector <Odbiorca> odbiorcy;		
+		
 
 	string imie;
 	string nazwisko;
@@ -43,6 +43,8 @@ private:
 
 	//metody
 public:
+
+	vector <Odbiorca> odbiorcy;
 	//konstruktor do poprawy, pesel jako string
 	Uzytkownik(string = "", string = "", string = "", string = "", double = 0, long double = 0, float = 0);
 	~Uzytkownik();			//destruktor
@@ -52,7 +54,7 @@ public:
 	string Login();
 	string Haslo();
 	string hasloPot;
-	string Urodzenie();
+	//string Urodzenie();
 
 	void dodaj();			//dodawanie konta
 	void ZmianaHasla();
@@ -63,6 +65,7 @@ public:
 	void Wplata();
 	void Wyplata();
 	void Zapis();
+	void Odczyt();
 
 };
 
