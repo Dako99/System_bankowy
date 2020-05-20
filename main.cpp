@@ -2,9 +2,60 @@
 
 #include <Windows.h>		//zamina koloru, czas
 #include <winbase.h>		//aktualny czas
-//#include <time.h>			//czas
+
+#include <fstream>
 
 using namespace std;
+
+
+//spoko bedzie jakoœ to do system.cpp ->
+
+void DodanieDoWektora(vector<Uzytkownik>& lista, const string& zapis) // Funkcja, ktora wywoluje zapis danych aby dodawac kolejne
+																			// elementy do wektora
+{
+	int j = 0;
+	string Data[7];
+	for (auto& i : Data) {
+		while (zapis[j] != ' ' && j != zapis.length()) {
+			i += zapis[j];
+			j++;
+		}
+		j++;
+
+	}
+
+	long double NrKonta = atof(Data[5].c_str());
+	float saldo = atof(Data[6].c_str());
+
+	lista.push_back(Uzytkownik(Data[0], Data[1], Data[2], Data[3], Data[4], NrKonta, saldo));
+
+}
+
+void OdczytZPliku(vector<Uzytkownik>& lista) // Funkcja odczytuje z pliku dane oraz dodaje je do wektora
+{
+	if (lista.empty())
+	{
+		fstream plik;
+		string  linia;
+		try {
+			plik.open("BazaDanych.txt", ios::in);
+		}
+		catch (...) {
+			cout << "Baza danych nie istnieje" << endl;
+		}
+
+		while (getline(plik, linia)) {
+			DodanieDoWektora(lista, linia);
+
+		}
+		plik.close();
+
+	}
+}
+
+
+// <- spoko bedzie jakoœ to do system.cpp
+
 
 
 int main() {
@@ -16,22 +67,22 @@ int main() {
 	Odbiorca nowy_odbiorca;
 	string login, haslo;
 
-	//cout << "£adowanie Systemu Bankowego" << endl;	//fake progres
-	//float progres = 0.0;
- //	while (progres < 1.0) {
-	//	int bar = 50;
-	//	cout << "[";
-	//	int pos = bar * progres;
-	//	for (int i = 0; i < bar; ++i) {
-	//		if (i < pos) cout << "=";
-	//		else if (i == pos) cout << ">";
-	//		else cout << " ";
-	//	}
-	//	cout << "] " << int(progres * 101.0) << " %\r";
-	//	cout.flush();
-	//	progres += 0.005;		//przykladowow
-	//}
-	//cout << endl;
+	cout << "Ladowanie Systemu Bankowego" << endl;	//fake progres
+	float progres = 0.0;
+ 	while (progres < 1.0) {
+		int bar = 50;
+		cout << "[";
+		int pos = bar * progres;
+		for (int i = 0; i < bar; ++i) {
+			if (i < pos) cout << "=";
+			else if (i == pos) cout << ">";
+			else cout << " ";
+		}
+		cout << "] " << int(progres * 101.0) << " %\r";
+		cout.flush();
+		progres += 0.005;		//przykladowow
+	}
+	cout << endl;
 
 	//srand(time(NULL));
 	//int losowa = rand() % 1000 + 0;
@@ -103,6 +154,7 @@ int main() {
 								case 80: if (menu_d < m_max) menu_d++; else cout << "\a"; break;
 								case 72: if (menu_d > m_min) menu_d--; else cout << "\a"; break;
 								}
+
 							if (in == 13)
 								switch (menu_d) {
 
@@ -114,14 +166,23 @@ int main() {
 									cout << "Data urodzenia: " << "<Trzeba dodac>" << endl;
 									system("PAUSE");
 									break;
+
 								case 1: //historia operacji na koncie
 									cout << "Historia operacji na koncie jest pusta" << endl;
 									system("PAUSE");
 									break;
+
 								case 2: //pokaz zaplanowane operacje
+									lista[i].Odczyt();
+									cout << "Imie: " << lista[i].Imie() << endl;
+									cout << "Nazwisko: " << lista[i].Nazwisko() << endl;
+									cout << "Nr PESEL: " << lista[i].Pesel() << endl;
+									cout << "Numer konta: " << "<Trzeba dodac>" << endl;
+									cout << "Data urodzenia: " << "<Trzeba dodac>" << endl;
+									system("PAUSE");
 
 									break;
-								case 3:  //Dod, odbiorce przelewu
+								case 3:  //Dod. odbiorce przelewu
 								{ //ca³oœc w klamrze
 									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku s³ów nie zadzia³a
 									cin >> nowy_odbiorca.nazwa;
@@ -172,147 +233,150 @@ int main() {
 											pomoc = 1;
 											break;
 										}
-								}
+									}
 
-								if (pomoc == 0) {
-									cout << "Podaj numer konta odbiorcy przelewu" << endl;
-									cin >> nowy_odbiorca.numer_konta;
+									if (pomoc == 0) {
+										cout << "Podaj numer konta odbiorcy przelewu" << endl;
+										cin >> nowy_odbiorca.numer_konta;
 
-								}
+									}
 
-								// czêœæ odpowiedzialna za zrobienie przelewu
-								cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
-								cin >> kwota;
-								/*if (kwota > lista[i].saldo) {
-									cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
-									system("PAUSE");
-									break;
-								}*/
+									// czêœæ odpowiedzialna za zrobienie przelewu
+									cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
+									cin >> kwota;
+									/*if (kwota > lista[i].saldo) {
+										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
+										system("PAUSE");
+										break;
+									}*/
 
-								SYSTEMTIME st;
-								GetLocalTime(&st);
-								cout << "Obecny czas" << endl;
-								cout << "	Rok: " << st.wYear << endl;
-								cout << "	Miesiac: " << st.wMonth << endl;
-								cout << "	Dzien: " << st.wDay << endl;
-								cout << "	Godzina: " << st.wHour << endl;
-								cout << "	Minuta: " << st.wMinute << endl << endl;
-								int dzien, miesiac, rok, minuta, godzina;
-								cout << "Podaj termin planowanej operacji" << endl;
-								cout << "Podaj rok ";
-								cin >> rok;
-								cout << "Podaj miesiac ";
-								cin >> miesiac;
-								cout << "Podaj dzien ";
-								cin >> dzien;
-								cout << "Podaj godzine ";
-								cin >> godzina;
-								cout << "Podaj minute ";
-								cin >> minuta;
-								if (rok < st.wYear) {
-									cout << "Nie mozna zrobic operacji w przeszlosci";
-									break;
-								}
-								if (rok == st.wYear && miesiac < st.wMonth) {
-									cout << "Nie mozna zrobic operacji w przeszlosci";
-									break;
-								}
-								if (rok == st.wYear && miesiac == st.wMonth && dzien < st.wDay) {
-									cout << "Nie mozna zrobic operacji w przeszlosci";
-									break;
-								}
-								if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina < st.wHour) {
-									cout << "Nie mozna zrobic operacji w przeszlosci";
-									break;
-								}
-								if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina == st.wHour && minuta < st.wHour) {
-									cout << "Nie mozna zrobic operacji w przeszlosci";
-									system("PAUSE");
-									break;
-								}
-								if (miesiac > 12 || dzien > 31 || godzina > 24 || minuta > 59) {
-									cout << "Blad przy wprowadzaniu danych";
-									system("PAUSE");
-									break;
-								}
-								cout << "Mysle.." << endl;
-								/*while (1) {
-									if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina == st.wHour && minuta == st.wMinute) {
-										lista[i].saldo = lista[i].saldo - kwota;
-										for (int j = 0; j < lista.size(); j++) {
-											if (nowy_odbiorca.numer_konta == lista[j].numer_konta) {
-												lista[j].numer_konta = lista[j].numer_konta + kwota;
-												break;
-											}
-										}
-										cout << "Zrobiono przelew";
-
+									SYSTEMTIME st;
+									GetLocalTime(&st);
+									cout << "Obecny czas" << endl;
+									cout << "	Rok: " << st.wYear << endl;
+									cout << "	Miesiac: " << st.wMonth << endl;
+									cout << "	Dzien: " << st.wDay << endl;
+									cout << "	Godzina: " << st.wHour << endl;
+									cout << "	Minuta: " << st.wMinute << endl << endl;
+									int dzien, miesiac, rok, minuta, godzina;
+									cout << "Podaj termin planowanej operacji" << endl;
+									cout << "Podaj rok ";
+									cin >> rok;
+									cout << "Podaj miesiac ";
+									cin >> miesiac;
+									cout << "Podaj dzien ";
+									cin >> dzien;
+									cout << "Podaj godzine ";
+									cin >> godzina;
+									cout << "Podaj minute ";
+									cin >> minuta;
+									if (rok < st.wYear) {
+										cout << "Nie mozna zrobic operacji w przeszlosci";
 										break;
 									}
-								}*/
-								system("PAUSE");
+									if (rok == st.wYear && miesiac < st.wMonth) {
+										cout << "Nie mozna zrobic operacji w przeszlosci";
+										break;
+									}
+									if (rok == st.wYear && miesiac == st.wMonth && dzien < st.wDay) {
+										cout << "Nie mozna zrobic operacji w przeszlosci";
+										break;
+									}
+									if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina < st.wHour) {
+										cout << "Nie mozna zrobic operacji w przeszlosci";
+										break;
+									}
+									if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina == st.wHour && minuta < st.wHour) {
+										cout << "Nie mozna zrobic operacji w przeszlosci";
+										system("PAUSE");
+										break;
+									}
+									if (miesiac > 12 || dzien > 31 || godzina > 24 || minuta > 59) {
+										cout << "Blad przy wprowadzaniu danych";
+										system("PAUSE");
+										break;
+									}
+									cout << "Mysle.." << endl;
+									/*while (1) {
+										if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina == st.wHour && minuta == st.wMinute) {
+											lista[i].saldo = lista[i].saldo - kwota;
+											for (int j = 0; j < lista.size(); j++) {
+												if (nowy_odbiorca.numer_konta == lista[j].numer_konta) {
+													lista[j].numer_konta = lista[j].numer_konta + kwota;
+													break;
+												}
+											}
+											cout << "Zrobiono przelew";
+
+											break;
+										}
+									}*/
+									system("PAUSE");
 								}
-							break;
-			case 5: //Wyp³ata
-				lista[i].WpiszHaslo();
-				lista[i].Wyplata();
-				break;
-			case 6:	//Wp³ata
-				lista[i].WpiszHaslo();
-				lista[i].Wplata();
-				break;
-			case 7: //sprawdz saldo
-				lista[i].Saldo();
-				break;
-			case 8: //zmiana has³a
-				lista[i].WpiszHaslo();
-				lista[i].ZmianaHasla();
-				cout << "Zaloguj sie ponownie" << endl;
-				login = "";
-				haslo = "";
-				a = 1;
-				break;
-			case 9:	//wylogowanie
-			{
-				a = 1;
-				login = "";
-				haslo = "";
+								break;
+								case 5: //Wyplata
+									lista[i].WpiszHaslo();
+									lista[i].Wyplata();
+									break;
+								case 6:	//Wplata
+									lista[i].WpiszHaslo();
+									lista[i].Wplata();
+									break;
+								case 7: //sprawdz Saldo
+									lista[i].Saldo();
+									break;
+								case 8: //Zmiana Has³a
+									lista[i].WpiszHaslo();
+									lista[i].ZmianaHasla();
+									cout << "Zaloguj sie ponownie" << endl;
+									login = "";
+									haslo = "";
+									a = 1;
+									break;
+								case 9:	//wylogowanie
+								{
+									a = 1;
+									login = "";
+									haslo = "";
 
 
 
 
-				
-									
 
 
 
 
-			}
-				break;
-			case 10: //usun konto
-				lista[i].WpiszHaslo();
-				lista.erase(lista.begin() + i);
-				cout << "Pomyslnie usunieto konto" << endl;
-				login = "";
-				haslo = "";
-				a = 1;
-				//wypierdala jakis vector w kosmos
+
+
+								}
+								break;
+								case 10: //usun konto
+								{
+									lista[i].WpiszHaslo();
+									lista.erase(lista.begin() + i);
+									cout << "Pomyslnie usunieto konto" << endl;
+									login = "";
+									haslo = "";
+									a = 1;
+									break;
+								}
+
+								}
 						}
 					}
-				}
 
-			}
-		if (a == 0) {
-			cout << "Niepoprawne login lub haslo" << endl;
-			system("PAUSE");
-			// dodac: ponow probe, wyjdz 
-		}
-		else {
-			cout << "Pomyslnie wylogowano" << endl;
-			system("PAUSE");
-			a = 0;
-		}
-		break;
+				}
+				if (a == 0) {
+					cout << "Niepoprawne login lub haslo" << endl;
+					system("PAUSE");
+					// dodac: ponow probe, wyjdz 
+				}
+				else {
+					cout << "Pomyslnie wylogowano" << endl;
+					system("PAUSE");
+					a = 0;
+				}
+				//break; - brak niego to nie bug a feature
 
 			case 1:		//za³ó¿ konto
 				nowy.dodaj();
@@ -325,7 +389,7 @@ int main() {
 					lista[j].Zapis();
 				}
 				exit(0);
+			}
 	}
-}
-return 0;
+	return 0;
 }

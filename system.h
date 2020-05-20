@@ -4,6 +4,9 @@
 #include <conio.h>
 #include <vector>
 
+
+#include <time.h>			//czas
+
 using namespace std;
 
 //delkaracja klas, 
@@ -13,7 +16,7 @@ using namespace std;
 class Uzytkownik;
 class Odbiorca;
 class Pracownik;
-class Konto; //smietnik teraz?
+class Konto;
 class Historia;	//work in progress
 
 
@@ -21,12 +24,8 @@ class Historia;	//work in progress
 class Uzytkownik {
 
 	//atrybuty
-
 private:
-
-	//dodanie listy odbiorców TO CHYBA DO system.cpp????
-		
-
+	
 	string imie;
 	string nazwisko;
 	string pesel;			//lepiej niz double albo long, dla daty
@@ -38,15 +37,16 @@ private:
 	string login;
 	string haslo;
 
-	long double numer_konta;
+	int numer_konta;
 	float saldo;
+
 
 	//metody
 public:
-
+	//dodanie listy odbiorcow
 	vector <Odbiorca> odbiorcy;
 	//konstruktor do poprawy, pesel jako string
-	Uzytkownik(string = "", string = "", string = "", string = "", double = 0, long double = 0, float = 0);
+	Uzytkownik(string = "", string = "", string = "", string = "", string = "", long double = 0, float = 0);
 	~Uzytkownik();			//destruktor
 	string Imie();
 	string Nazwisko();
@@ -60,12 +60,13 @@ public:
 	void ZmianaHasla();
 	void zplku();
 	void WpiszHaslo();
-	void NrKonta();
+	int NrKonta();
 	void Saldo();
 	void Wplata();
 	void Wyplata();
 	void Zapis();
 	void Odczyt();
+	
 
 };
 
@@ -76,22 +77,20 @@ private:
 	string pLogin;
 	string pHaslo;
 
-	//metody
+	//metody i uprawnienia Admina
 public:
 	Pracownik(string = "admin", string = "admin");
 	~Pracownik();
 	void dodaj();			//dodawanie konta
 	void ZmianaHasla();
-	void zplku();
-
-	//jakieœ i metody uprawnienia Admina
+	void Odczyt();
 
 };
 
 
 // utworzenie klasy odbiorca
 class Odbiorca {
-public: //tak, tak znowu ten public...
+public: //private moze?
 	string nazwa;
 	int numer_konta;
 };
