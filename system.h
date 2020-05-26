@@ -1,8 +1,8 @@
-#include <iostream>
+#include <iostream>			//input/output
 #include <cstdlib>			//m.in rand()
-#include <string>
-#include <conio.h>
-#include <vector>
+#include <string>			//class string
+#include <conio.h>			//getch()
+#include <vector>			//dynamiczne tablice
 
 
 #include <time.h>			//czas
@@ -17,15 +17,13 @@ class Uzytkownik;
 class Odbiorca;
 class Pracownik;
 class Konto;
-class Historia;	//work in progress
-
+class Historia;
 
 
 class Uzytkownik {
 
 	//atrybuty
 private:
-	
 	string imie;
 	string nazwisko;
 	string pesel;			//lepiej niz double albo long, dla daty
@@ -41,11 +39,13 @@ private:
 	float saldo;
 
 
+
 	//metody
 public:
-	//dodanie listy odbiorcow
-	vector <Odbiorca> odbiorcy;
-	//konstruktor do poprawy, pesel jako string
+
+	vector <Odbiorca> odbiorcy;				//dodanie listy odbiorcow
+	vector <Historia> historia_operacji;	//historia operacji
+
 	Uzytkownik(string = "", string = "", string = "", string = "", string = "", long double = 0, float = 0);
 	~Uzytkownik();			//destruktor
 	string Imie();
@@ -53,12 +53,11 @@ public:
 	string Pesel();
 	string Login();
 	string Haslo();
-	string hasloPot;
+
 	//string Urodzenie();
 
 	void dodaj();			//dodawanie konta
 	void ZmianaHasla();
-	void zplku();
 	void WpiszHaslo();
 	int NrKonta();
 	void Saldo();
@@ -66,14 +65,13 @@ public:
 	void Wyplata();
 	void Zapis();
 	void Odczyt();
-	
 
 };
 
-class Pracownik :protected Uzytkownik {// 
-	//atrybuty
+class Pracownik :protected Uzytkownik { //dziedziczenie
+
+	//atrybuty (uprawnienia Admina)
 private:
-	//atrybuty uprawnienia Admina
 	string pLogin;
 	string pHaslo;
 
@@ -88,7 +86,6 @@ public:
 };
 
 
-// utworzenie klasy odbiorca
 class Odbiorca {
 public: //private moze?
 	string nazwa;
@@ -97,11 +94,11 @@ public: //private moze?
 
 
 class Konto {
+
 	//atrybuty
 public:
 	int numer_konta;
-	float saldo;
-	//a moze saldo zamiast float to long ale na koñcu podzielic przez 100?
+	float saldo; //ewentualnie jako long i na koñcu podzielic przez 100
 	float kasa;
 
 	//metody
@@ -113,5 +110,8 @@ public:
 
 
 class Historia {
-
+public:
+	string operacja;
+	int rok, miesiac, dzien, godzina, minuta, konto_docelowe; //data operacji
+	float kwota;
 };

@@ -1,13 +1,12 @@
 #include "system.h"
 #include <fstream>			//obsluga plikow
-#include <string>
+
 
 using namespace std;
 
 //metody:
 //Konstruktor, destruktor i metody dostêpu do zmiennych danych konta
 
-//konstruktor do poprawy, pesel jako string
 Uzytkownik::Uzytkownik(string i, string n, string l, string h, string p, long double nr, float s)
 {
 	imie = i;
@@ -23,14 +22,6 @@ Uzytkownik::~Uzytkownik()
 {
 };
 
-string Uzytkownik::Haslo()
-{
-	return this->haslo;
-};
-string Uzytkownik::Login()
-{
-	return this->login;
-};
 string Uzytkownik::Imie()
 {
 	return this->imie;
@@ -42,6 +33,14 @@ string Uzytkownik::Nazwisko()
 string Uzytkownik::Pesel()
 {
 	return this->pesel;
+};
+string Uzytkownik::Login()
+{
+	return this->login;
+};
+string Uzytkownik::Haslo()
+{
+	return this->haslo;
 };
 
 // end
@@ -62,7 +61,6 @@ void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 
 	do
 	{
-
 		//=aoti(pesel.s_str());
 		cout << "Podaj pesel: " << endl;
 		cin >> this->pesel;
@@ -89,7 +87,6 @@ void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 			if (rk > (2020 - 18)) {
 				cout << "\a" << "Zalozyc konto moze tylko osoba pelnoletnia" << endl << endl;
 				dodaj();
-
 			}
 		}
 		else cout << endl << "Nieprawidlowy nr pesel (data)" << endl;
@@ -112,6 +109,8 @@ void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 	cin >> this->login;
 	cout << "Podaj haslo: (ukryc przy wprowadzaniu)" << endl;
 	cin >> this->haslo;
+
+	string hasloPot;
 	cout << "Potwierdz haslo: " << endl;
 	cin >> hasloPot;
 	while (haslo != hasloPot) {
@@ -124,7 +123,6 @@ void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 
 	cout << "Konto zostalo utworzone pomyslnie" << endl;
 	system("PAUSE");
-	
 }
 
 
@@ -249,7 +247,7 @@ void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat
 	{
 		cout << "Podane haslo jest bledne, sprobuj ponownie: ";
 		cin >> HASLO;
-	
+
 	}
 
 	/*string HASLO;
@@ -276,7 +274,7 @@ void Uzytkownik::Saldo()
 
 
 void Uzytkownik::Wyplata()
-{
+{ //kwota
 	float wyplata;
 	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
 	cout << "0 aby wyjsc" << endl;
@@ -295,7 +293,7 @@ void Uzytkownik::Wyplata()
 
 
 void Uzytkownik::Wplata()
-{				//je¿eli u¿ytkownik ma kilka kont, to spytac na ktore konto
+{	//kwota			//je¿eli u¿ytkownik ma kilka kont, to spytac na ktore konto
 	float wplata;
 	cout << "Podaj kwote jaka chcesz wplacic" << endl;
 	cin >> wplata;

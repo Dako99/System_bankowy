@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Historia">
-    <Position X="5.5" Y="7" Width="1.5" />
+    <Position X="5.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gAACAAAAAAAgAAACAAAAAAACAAAAAAAAIAAgAQAAAAA=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +17,7 @@
   <Class Name="Pracownik" Collapsed="true">
     <Position X="4.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAgAAAAAAQAAAAABAAAAAAgQAAAABAA=</HashCode>
+      <HashCode>AAAAQAAAAAAAAAgAAAAAAQAAAAABAAABAAgAAAAABAA=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -34,7 +34,7 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AMCQAAAAEIAAAQCARCABARAAgAABIAAAAAIQAQCCEAk=</HashCode>
+      <HashCode>AICQAAAAEIAAAwCARCABARAAgAABIAABAAIQAQCCEAk=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>

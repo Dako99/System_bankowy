@@ -1,9 +1,9 @@
 #include "system.h"
 
-#include <Windows.h>		//zamina koloru, czas
+#include <Windows.h>		//zamina koloru, czas xd
 #include <winbase.h>		//aktualny czas
 
-#include <fstream>
+#include <fstream>			//obsluga plikow
 
 using namespace std;
 
@@ -62,27 +62,32 @@ int main() {
 
 	setlocale(LC_ALL, "polish");		//jezyk polski
 
+
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	Historia nowa_operacja;
+
 	vector <Uzytkownik> lista;
 	Uzytkownik nowy;				//tworzy obiekt
 	Odbiorca nowy_odbiorca;
 	string login, haslo;
 
-	cout << "Ladowanie Systemu Bankowego" << endl;	//fake progres
-	float progres = 0.0;
- 	while (progres < 1.0) {
-		int bar = 50;
-		cout << "[";
-		int pos = bar * progres;
-		for (int i = 0; i < bar; ++i) {
-			if (i < pos) cout << "=";
-			else if (i == pos) cout << ">";
-			else cout << " ";
-		}
-		cout << "] " << int(progres * 101.0) << " %\r";
-		cout.flush();
-		progres += 0.005;		//przykladowow
-	}
-	cout << endl;
+	//cout << "Ladowanie Systemu Bankowego" << endl;	//fake progres
+	//float progres = 0.0;
+	//while (progres < 1.0) {
+	//	int bar = 50;
+	//	cout << "[";
+	//	int pos = bar * progres;
+	//	for (int i = 0; i < bar; ++i) {
+	//		if (i < pos) cout << "=";
+	//		else if (i == pos) cout << ">";
+	//		else cout << " ";
+	//	}
+	//	cout << "] " << int(progres * 101.0) << " %\r";
+	//	cout.flush();
+	//	progres += 0.005;		//przykladowow
+	//}
+	//cout << endl;
 
 	//srand(time(NULL));
 	//int losowa = rand() % 1000 + 0;
@@ -169,8 +174,20 @@ int main() {
 
 								case 1: //historia operacji na koncie
 									cout << "Historia operacji na koncie jest pusta" << endl;
+
+
+									for (int j = 0; j < lista[i].historia_operacji.size(); j++) {
+										cout << lista[i].historia_operacji[j].godzina << ":" << lista[i].historia_operacji[j].minuta << " " <<
+											lista[i].historia_operacji[j].dzien << "." << lista[i].historia_operacji[j].miesiac << "." <<
+											lista[i].historia_operacji[j].rok << " " << lista[i].historia_operacji[j].operacja << " ";
+										if (lista[i].historia_operacji[j].operacja == "przelew") {
+											cout << "na konto " << lista[i].historia_operacji[j].konto_docelowe << " ";
+										}
+										cout << lista[i].historia_operacji[j].kwota << " zl" << endl;
+									}
 									system("PAUSE");
 									break;
+
 
 								case 2: //pokaz zaplanowane operacje
 									lista[i].Odczyt();
@@ -244,7 +261,7 @@ int main() {
 									// czêœæ odpowiedzialna za zrobienie przelewu
 									cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
 									cin >> kwota;
-									/*if (kwota > lista[i].saldo) {
+									/*if (kwota > lista[i].saldo()) {
 										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
 										system("PAUSE");
 										break;
@@ -311,16 +328,50 @@ int main() {
 											break;
 										}
 									}*/
+
+
+									nowa_operacja.rok = st.wYear;
+									nowa_operacja.miesiac = st.wMonth;
+									nowa_operacja.dzien = st.wDay;
+									nowa_operacja.godzina = st.wHour;
+									nowa_operacja.minuta = st.wMinute;
+									//nowa_operacja.kwota = kwota;
+									nowa_operacja.operacja = "przelew";
+									nowa_operacja.konto_docelowe = nowy_odbiorca.numer_konta;
+									lista[i].historia_operacji.push_back(nowa_operacja);
+
+
+
 									system("PAUSE");
 								}
 								break;
 								case 5: //Wyplata
 									lista[i].WpiszHaslo();
 									lista[i].Wyplata();
+
+									nowa_operacja.rok = st.wYear;
+									nowa_operacja.miesiac = st.wMonth;
+									nowa_operacja.dzien = st.wDay;
+									nowa_operacja.godzina = st.wHour;
+									nowa_operacja.minuta = st.wMinute;
+									nowa_operacja.kwota = kwota;
+									nowa_operacja.operacja = "wplata";
+									lista[i].historia_operacji.push_back(nowa_operacja);
+
 									break;
 								case 6:	//Wplata
 									lista[i].WpiszHaslo();
 									lista[i].Wplata();
+
+									nowa_operacja.rok = st.wYear;
+									nowa_operacja.miesiac = st.wMonth;
+									nowa_operacja.dzien = st.wDay;
+									nowa_operacja.godzina = st.wHour;
+									nowa_operacja.minuta = st.wMinute;
+									//nowa_operacja.kwota = kwota;
+									nowa_operacja.operacja = "wyplata";
+									lista[i].historia_operacji.push_back(nowa_operacja);
+
 									break;
 								case 7: //sprawdz Saldo
 									lista[i].Saldo();
@@ -376,7 +427,7 @@ int main() {
 					system("PAUSE");
 					a = 0;
 				}
-				//break; - brak niego to nie bug a feature
+				break; // brak niego to nie bug a feature
 
 			case 1:		//za³ó¿ konto
 				nowy.dodaj();
