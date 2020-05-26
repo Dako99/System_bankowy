@@ -5,7 +5,7 @@
 using namespace std;
 
 //metody:
-//Konstruktor, destruktor i metody dostêpu do zmiennych danych konta
+//Konstruktor, destruktor i metody dostÄ™pu do zmiennych danych konta
 
 Uzytkownik::Uzytkownik(string i, string n, string l, string h, string p, long double nr, float s)
 {
@@ -46,7 +46,7 @@ string Uzytkownik::Haslo()
 // end
 
 
-void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
+void Uzytkownik::dodaj()	//dodaje uÅ¼ytkownika do systemu
 {
 	/*cout << "Nacisnij dowolny klawisz aby kontynuowac" << endl;
 	cout << "Nacisnij Esc aby anulowac" << endl;
@@ -65,20 +65,20 @@ void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 		cout << "Podaj pesel: " << endl;
 		cin >> this->pesel;
 
-		//poprawna d³ugosc nr pesel
+		//poprawna dÅ‚ugosc nr pesel
 		while (stod(pesel) < 1000 || stod(pesel) > 100000000000) {
 			cout << "\a" << "Nieprawidlowy nr pesel" << endl;
 			cout << "Podaj pesel ponownie: " << endl;
 			cin >> this->pesel;
 		}
 
-		//obs³uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
+		//obsÅ‚uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
 		int rk = stoi(pesel.substr(0, 2));
 		int msc = stoi(pesel.substr(2, 2));
 		int dz = stoi(pesel.substr(4, 2));
 
 		//ROCZNIK 00 and up
-		//Osoby urodzone w roku 2000 i póŸniej maj¹ powiêkszony numer miesi¹ca o liczbê 20
+		//Osoby urodzone w roku 2000 i pÃ³Åºniej majÄ… powiÄ™kszony numer miesiÄ…ca o liczbÄ™ 20
 
 		if ((13 > msc) && (msc > 0)) rk = rk + 1900;
 		else if ((33 > msc) && (msc > 20)) {
@@ -159,7 +159,7 @@ void Uzytkownik::Odczyt()
 		mojStrumien << "Haslo: " << this->haslo << endl;
 	}
 	else {
-		cout << "BLAD: nie mo¿na otworzyæ pliku." << endl;
+		cout << "BLAD: nie moÅ¼na otworzyÄ‡ pliku." << endl;
 	}
 
 
@@ -175,7 +175,7 @@ void Uzytkownik::Odczyt()
 	//	int aktualny_nr = 1;
 	//	string linia;
 	//	int nr_konta = 0;
-	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie uda³o sie pobrac
+	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie udaÅ‚o sie pobrac
 	//	{
 	//		switch (aktualny_nr) {
 	//		case 1:imie = linia; break;
@@ -194,7 +194,7 @@ void Uzytkownik::Odczyt()
 };
 
 
-//poczatek obs³ugi hasla
+//poczatek obsÅ‚ugi hasla
 
 void Uzytkownik::ZmianaHasla()
 {
@@ -262,10 +262,10 @@ void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat
 
 };
 
-//Koniec obs³ugi hasla
+//Koniec obsÅ‚ugi hasla
 
 
-// Obs³uga kasy
+// ObsÅ‚uga kasy
 void Uzytkownik::Saldo()
 {
 	cout << "Twoj stan konta to: " << this->saldo << " zl" << endl;
@@ -293,7 +293,7 @@ void Uzytkownik::Wyplata()
 
 
 void Uzytkownik::Wplata()
-{	//kwota			//je¿eli u¿ytkownik ma kilka kont, to spytac na ktore konto
+{	//kwota			//jeÅ¼eli uÅ¼ytkownik ma kilka kont, to spytac na ktore konto
 	float wplata;
 	cout << "Podaj kwote jaka chcesz wplacic" << endl;
 	cin >> wplata;
@@ -309,12 +309,12 @@ void Uzytkownik::Wplata()
 };
 
 
-// koniec obs³ugi kasy
+// koniec obsÅ‚ugi kasy
 
 
 //Nr konta mysle, ze starczy 5 cyfr, w long double miesci sie 15, z czego przez notacje z e nie wyswietli nawet 10
 //Numer konta zapisac mozna do innego pliku, przez co przy zapisie bazy, nie zmieni sie on po restarcie programu,
-//Wrzucam tylko tê funkcje, dzisiaj nocka zarwana i praktycznie 0 progresu :(
+//Wrzucam tylko tÄ™ funkcje, dzisiaj nocka zarwana i praktycznie 0 progresu :(
 
 int Uzytkownik::NrKonta()
 {
@@ -326,8 +326,8 @@ int Uzytkownik::NrKonta()
 };
 
 
-// Plus jeszcze ta, ale tutaj wywala mi b³¹d prze³adowania bufora i nie wiem co dalej, problem prawdopodobnie,
-//le¿y w pêtli.
+// Plus jeszcze ta, ale tutaj wywala mi bÅ‚Ä…d przeÅ‚adowania bufora i nie wiem co dalej, problem prawdopodobnie,
+//leÅ¼y w pÄ™tli.
 
 
 
@@ -335,7 +335,7 @@ int Uzytkownik::NrKonta()
 
 void Pracownik::dodaj()
 {
-	//jakieœ bajerki
+	//jakieÅ› bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::dodaj();
 
@@ -343,7 +343,7 @@ void Pracownik::dodaj()
 
 void Pracownik::ZmianaHasla()
 {
-	//jakieœ bajerki
+	//jakieÅ› bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::ZmianaHasla();
 
@@ -351,7 +351,7 @@ void Pracownik::ZmianaHasla()
 
 void Pracownik::Odczyt()
 {
-	//jakieœ bajerki
+	//jakieÅ› bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::Odczyt();
 
