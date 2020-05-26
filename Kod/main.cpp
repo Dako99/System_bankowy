@@ -8,7 +8,7 @@
 using namespace std;
 
 
-//spoko bedzie jakoœ to do system.cpp ->
+//spoko bedzie jakoÅ› to do system.cpp ->
 
 void DodanieDoWektora(vector<Uzytkownik>& lista, const string& zapis) // Funkcja, ktora wywoluje zapis danych aby dodawac kolejne
 																			// elementy do wektora
@@ -54,7 +54,7 @@ void OdczytZPliku(vector<Uzytkownik>& lista) // Funkcja odczytuje z pliku dane o
 }
 
 
-// <- spoko bedzie jakoœ to do system.cpp
+// <- spoko bedzie jakoÅ› to do system.cpp
 
 
 
@@ -96,7 +96,7 @@ int main() {
 	//menu glowne
 	int menu_c = 0;
 	int menu_min = 0, menu_max = 2;
-	//menu u¿ytkownika
+	//menu uÅ¼ytkownika
 	int menu_d = 0;
 	int m_min = 0, m_max = 10, in;
 
@@ -127,7 +127,7 @@ int main() {
 		if (input == 13)										//Enter
 			switch (menu_c) {
 
-			case 0:		//zaloguj siê
+			case 0:		//zaloguj siÄ™
 				cout << "Podaj login" << endl;
 				cin >> login;
 				cout << "Podaj haslo (Fajnie jakby nie bylo widac)" << endl;
@@ -200,8 +200,8 @@ int main() {
 
 									break;
 								case 3:  //Dod. odbiorce przelewu
-								{ //ca³oœc w klamrze
-									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku s³ów nie zadzia³a
+								{ //caÅ‚oÅ›c w klamrze
+									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku sÅ‚Ã³w nie zadziaÅ‚a
 									cin >> nowy_odbiorca.nazwa;
 
 									int zmienna = 0;
@@ -258,8 +258,8 @@ int main() {
 
 									}
 
-									// czêœæ odpowiedzialna za zrobienie przelewu
-									cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
+									// czÄ™Å›Ä‡ odpowiedzialna za zrobienie przelewu
+									cout << "Podaj kwotÄ™ jaka chcesz przelaÄ‡ odbiorcy ";
 									cin >> kwota;
 									/*if (kwota > lista[i].saldo()) {
 										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
@@ -376,7 +376,7 @@ int main() {
 								case 7: //sprawdz Saldo
 									lista[i].Saldo();
 									break;
-								case 8: //Zmiana Has³a
+								case 8: //Zmiana HasÅ‚a
 									lista[i].WpiszHaslo();
 									lista[i].ZmianaHasla();
 									cout << "Zaloguj sie ponownie" << endl;
@@ -429,7 +429,7 @@ int main() {
 				}
 				break; // brak niego to nie bug a feature
 
-			case 1:		//za³ó¿ konto
+			case 1:		//zaÅ‚Ã³Å¼ konto
 				nowy.dodaj();
 				lista.push_back(nowy);
 				break;
