@@ -1,78 +1,35 @@
 #include "system.h"
 
-#include <Windows.h>		//zamina koloru, czas xd
+#include <Windows.h>		//zamina koloru,
 #include <winbase.h>		//aktualny czas
-
 #include <fstream>			//obsluga plikow
 
 using namespace std;
 
 
-//spoko bedzie jakoÅ› to do system.cpp ->
 
-void DodanieDoWektora(vector<Uzytkownik>& lista, const string& zapis) // Funkcja, ktora wywoluje zapis danych aby dodawac kolejne
-																			// elementy do wektora
-{
-	int j = 0;
-	string Data[7];
-	for (auto& i : Data) {
-		while (zapis[j] != ' ' && j != zapis.length()) {
-			i += zapis[j];
-			j++;
-		}
-		j++;
-
-	}
-
-	long double NrKonta = atof(Data[5].c_str());
-	float saldo = atof(Data[6].c_str());
-
-	lista.push_back(Uzytkownik(Data[0], Data[1], Data[2], Data[3], Data[4], NrKonta, saldo));
-
-}
-
-void OdczytZPliku(vector<Uzytkownik>& lista) // Funkcja odczytuje z pliku dane oraz dodaje je do wektora
-{
-	if (lista.empty())
-	{
-		fstream plik;
-		string  linia;
-		try {
-			plik.open("BazaDanych.txt", ios::in);
-		}
-		catch (...) {
-			cout << "Baza danych nie istnieje" << endl;
-		}
-
-		while (getline(plik, linia)) {
-			DodanieDoWektora(lista, linia);
-
-		}
-		plik.close();
-
-	}
-}
+//spoko bedzie jakoœ to do system.cpp ->
 
 
-// <- spoko bedzie jakoÅ› to do system.cpp
 
+
+// <- spoko bedzie jakoœ to do system.cpp
 
 
 int main() {
 
 	setlocale(LC_ALL, "polish");		//jezyk polski
 
-
 	SYSTEMTIME st;
 	GetLocalTime(&st);
 	Historia nowa_operacja;
 
 	vector <Uzytkownik> lista;
-	Uzytkownik nowy;				//tworzy obiekt
+	Uzytkownik nowy;					//tworzy obiekt
 	Odbiorca nowy_odbiorca;
 	string login, haslo;
 
-	//cout << "Ladowanie Systemu Bankowego" << endl;	//fake progres
+	//cout << "Ladowanie Systemu Bankowego" << endl;	//progres bar
 	//float progres = 0.0;
 	//while (progres < 1.0) {
 	//	int bar = 50;
@@ -89,14 +46,15 @@ int main() {
 	//}
 	//cout << endl;
 
-	//srand(time(NULL));
+
+	//srand(time(null));
 	//int losowa = rand() % 1000 + 0;
-	//= ((float)rand() / RAND_MAX) * 1;
+	//= ((float)rand() / rand_max) * 1;
 
 	//menu glowne
 	int menu_c = 0;
 	int menu_min = 0, menu_max = 2;
-	//menu uÅ¼ytkownika
+	//menu u¿ytkownika
 	int menu_d = 0;
 	int m_min = 0, m_max = 10, in;
 
@@ -127,7 +85,7 @@ int main() {
 		if (input == 13)										//Enter
 			switch (menu_c) {
 
-			case 0:		//zaloguj siÄ™
+			case 0:		//zaloguj siê
 				cout << "Podaj login" << endl;
 				cin >> login;
 				cout << "Podaj haslo (Fajnie jakby nie bylo widac)" << endl;
@@ -200,8 +158,8 @@ int main() {
 
 									break;
 								case 3:  //Dod. odbiorce przelewu
-								{ //caÅ‚oÅ›c w klamrze
-									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku sÅ‚Ã³w nie zadziaÅ‚a
+								{ //ca³oœc w klamrze
+									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku s³ów nie zadzia³a
 									cin >> nowy_odbiorca.nazwa;
 
 									int zmienna = 0;
@@ -255,11 +213,10 @@ int main() {
 									if (pomoc == 0) {
 										cout << "Podaj numer konta odbiorcy przelewu" << endl;
 										cin >> nowy_odbiorca.numer_konta;
-
 									}
 
-									// czÄ™Å›Ä‡ odpowiedzialna za zrobienie przelewu
-									cout << "Podaj kwotÄ™ jaka chcesz przelaÄ‡ odbiorcy ";
+									// czêœæ odpowiedzialna za zrobienie przelewu
+									cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
 									cin >> kwota;
 									/*if (kwota > lista[i].saldo()) {
 										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
@@ -376,7 +333,7 @@ int main() {
 								case 7: //sprawdz Saldo
 									lista[i].Saldo();
 									break;
-								case 8: //Zmiana HasÅ‚a
+								case 8: //Zmiana Has³a
 									lista[i].WpiszHaslo();
 									lista[i].ZmianaHasla();
 									cout << "Zaloguj sie ponownie" << endl;
@@ -390,14 +347,15 @@ int main() {
 									login = "";
 									haslo = "";
 
+									//system("cls");
+									cout << "Trwa Wylogowywanie z Konta, Prosimy Czekac..." << endl;
+									Sleep(3000);
+									// system("cls");
+									cout << "Wylogowanie Poprawne" << endl;
+									cout << "Dziekujemy i Do Zobaczenia" << endl;
 
 
-
-
-
-
-
-
+									main(); //no chyba tylko tyle wsytarczy?
 
 								}
 								break;
@@ -429,7 +387,7 @@ int main() {
 				}
 				break; // brak niego to nie bug a feature
 
-			case 1:		//zaÅ‚Ã³Å¼ konto
+			case 1:		//za³ó¿ konto
 				nowy.dodaj();
 				lista.push_back(nowy);
 				break;

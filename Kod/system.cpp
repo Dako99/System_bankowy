@@ -1,11 +1,14 @@
 #include "system.h"
 #include <fstream>			//obsluga plikow
-
+#include <Windows.h>		//zamina koloru,
+#include <winbase.h>		//aktualny czas
 
 using namespace std;
 
+static const int WIEK = 13;  //ustawienie min wieku dla uzytkownika
+
 //metody:
-//Konstruktor, destruktor i metody dostÄ™pu do zmiennych danych konta
+//Konstruktor, destruktor i metody dostêpu do zmiennych danych konta
 
 Uzytkownik::Uzytkownik(string i, string n, string l, string h, string p, long double nr, float s)
 {
@@ -45,8 +48,49 @@ string Uzytkownik::Haslo()
 
 // end
 
+void DodanieDoWektora(vector<Uzytkownik>& lista, const string& zapis) // Funkcja, ktora wywoluje zapis danych aby dodawac kolejne
+																			// elementy do wektora
+{
+	int j = 0;
+	string Data[7];
+	for (auto& i : Data) {
+		while (zapis[j] != ' ' && j != zapis.length()) {
+			i += zapis[j];
+			j++;
+		}
+		j++;
+	}
 
-void Uzytkownik::dodaj()	//dodaje uÅ¼ytkownika do systemu
+	long double NrKonta = atof(Data[5].c_str());
+	float saldo = atof(Data[6].c_str());
+
+	lista.push_back(Uzytkownik(Data[0], Data[1], Data[2], Data[3], Data[4], NrKonta, saldo));
+
+}
+
+void OdczytZPliku(vector<Uzytkownik>& lista) // Funkcja odczytuje z pliku dane oraz dodaje je do wektora
+{
+	if (lista.empty())
+	{
+		fstream plik;
+		string  linia;
+		try {
+			plik.open("BazaDanych.txt", ios::in);
+		}
+		catch (...) {
+			cout << "Baza danych nie istnieje" << endl;
+		}
+
+		while (getline(plik, linia)) {
+			DodanieDoWektora(lista, linia);
+		}
+		plik.close();
+
+	}
+}
+
+
+void Uzytkownik::dodaj()	//dodaje u¿ytkownika do systemu
 {
 	/*cout << "Nacisnij dowolny klawisz aby kontynuowac" << endl;
 	cout << "Nacisnij Esc aby anulowac" << endl;
@@ -65,31 +109,34 @@ void Uzytkownik::dodaj()	//dodaje uÅ¼ytkownika do systemu
 		cout << "Podaj pesel: " << endl;
 		cin >> this->pesel;
 
-		//poprawna dÅ‚ugosc nr pesel
+		//poprawna d³ugosc nr pesel
 		while (stod(pesel) < 1000 || stod(pesel) > 100000000000) {
 			cout << "\a" << "Nieprawidlowy nr pesel" << endl;
 			cout << "Podaj pesel ponownie: " << endl;
 			cin >> this->pesel;
 		}
 
-		//obsÅ‚uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
+		//obs³uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
 		int rk = stoi(pesel.substr(0, 2));
 		int msc = stoi(pesel.substr(2, 2));
 		int dz = stoi(pesel.substr(4, 2));
 
 		//ROCZNIK 00 and up
-		//Osoby urodzone w roku 2000 i pÃ³Åºniej majÄ… powiÄ™kszony numer miesiÄ…ca o liczbÄ™ 20
+		//Osoby urodzone w roku 2000 i póŸniej maj¹ powiêkszony numer miesi¹ca o liczbê 20
+
+		SYSTEMTIME st;				// <----
+		GetLocalTime(&st);			// pobranie aktualnego roku
 
 		if ((13 > msc) && (msc > 0)) rk = rk + 1900;
 		else if ((33 > msc) && (msc > 20)) {
 			msc = (msc - 20);
 			rk = rk + 2000;
-			if (rk > (2020 - 18)) {
-				cout << "\a" << "Zalozyc konto moze tylko osoba pelnoletnia" << endl << endl;
+			if (rk > (st.wYear - WIEK)) {
+				cout << "\a" << "Zalozyc konto moze tylko osoba powy¿ej " << WIEK << " roku ¿ycia" << endl;
 				dodaj();
 			}
 		}
-		else cout << endl << "Nieprawidlowy nr pesel (data)" << endl;
+		else cout << endl << "Nieprawidlowy nr pesel (problem z data)" << endl;
 
 		cout << endl << "*dla testow*" << endl;
 		cout << "rok: " << rk << endl;
@@ -135,7 +182,6 @@ void Uzytkownik::Zapis()
 	plik << this->pesel << endl;
 	plik << this->login << endl;
 	plik << this->haslo << endl;
-	plik << haslo << endl;
 
 	plik.close();
 
@@ -159,7 +205,7 @@ void Uzytkownik::Odczyt()
 		mojStrumien << "Haslo: " << this->haslo << endl;
 	}
 	else {
-		cout << "BLAD: nie moÅ¼na otworzyÄ‡ pliku." << endl;
+		cout << "BLAD: nie mo¿na otworzyæ pliku." << endl;
 	}
 
 
@@ -175,7 +221,7 @@ void Uzytkownik::Odczyt()
 	//	int aktualny_nr = 1;
 	//	string linia;
 	//	int nr_konta = 0;
-	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie udaÅ‚o sie pobrac
+	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie uda³o sie pobrac
 	//	{
 	//		switch (aktualny_nr) {
 	//		case 1:imie = linia; break;
@@ -194,7 +240,7 @@ void Uzytkownik::Odczyt()
 };
 
 
-//poczatek obsÅ‚ugi hasla
+//poczatek obs³ugi hasla
 
 void Uzytkownik::ZmianaHasla()
 {
@@ -262,10 +308,10 @@ void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat
 
 };
 
-//Koniec obsÅ‚ugi hasla
+//Koniec obs³ugi hasla
 
 
-// ObsÅ‚uga kasy
+// Obs³uga kasy
 void Uzytkownik::Saldo()
 {
 	cout << "Twoj stan konta to: " << this->saldo << " zl" << endl;
@@ -293,7 +339,7 @@ void Uzytkownik::Wyplata()
 
 
 void Uzytkownik::Wplata()
-{	//kwota			//jeÅ¼eli uÅ¼ytkownik ma kilka kont, to spytac na ktore konto
+{	//kwota			//je¿eli u¿ytkownik ma kilka kont, to spytac na ktore konto
 	float wplata;
 	cout << "Podaj kwote jaka chcesz wplacic" << endl;
 	cin >> wplata;
@@ -309,12 +355,12 @@ void Uzytkownik::Wplata()
 };
 
 
-// koniec obsÅ‚ugi kasy
+// koniec obs³ugi kasy
 
 
 //Nr konta mysle, ze starczy 5 cyfr, w long double miesci sie 15, z czego przez notacje z e nie wyswietli nawet 10
 //Numer konta zapisac mozna do innego pliku, przez co przy zapisie bazy, nie zmieni sie on po restarcie programu,
-//Wrzucam tylko tÄ™ funkcje, dzisiaj nocka zarwana i praktycznie 0 progresu :(
+//Wrzucam tylko tê funkcje, dzisiaj nocka zarwana i praktycznie 0 progresu :(
 
 int Uzytkownik::NrKonta()
 {
@@ -326,8 +372,8 @@ int Uzytkownik::NrKonta()
 };
 
 
-// Plus jeszcze ta, ale tutaj wywala mi bÅ‚Ä…d przeÅ‚adowania bufora i nie wiem co dalej, problem prawdopodobnie,
-//leÅ¼y w pÄ™tli.
+// Plus jeszcze ta, ale tutaj wywala mi b³¹d prze³adowania bufora i nie wiem co dalej, problem prawdopodobnie,
+//le¿y w pêtli.
 
 
 
@@ -335,7 +381,7 @@ int Uzytkownik::NrKonta()
 
 void Pracownik::dodaj()
 {
-	//jakieÅ› bajerki
+	//jakieœ bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::dodaj();
 
@@ -343,7 +389,7 @@ void Pracownik::dodaj()
 
 void Pracownik::ZmianaHasla()
 {
-	//jakieÅ› bajerki
+	//jakieœ bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::ZmianaHasla();
 
@@ -351,7 +397,7 @@ void Pracownik::ZmianaHasla()
 
 void Pracownik::Odczyt()
 {
-	//jakieÅ› bajerki
+	//jakieœ bajerki
 	cout << "Witaj pracowniku" << endl;
 	Uzytkownik::Odczyt();
 

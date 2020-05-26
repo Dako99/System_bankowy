@@ -4,7 +4,6 @@
 #include <conio.h>			//getch()
 #include <vector>			//dynamiczne tablice
 
-
 #include <time.h>			//czas
 
 using namespace std;
@@ -98,7 +97,7 @@ class Konto {
 	//atrybuty
 public:
 	int numer_konta;
-	float saldo; //ewentualnie jako long i na koÃ±cu podzielic przez 100
+	float saldo; //ewentualnie jako long i na koñcu podzielic przez 100
 	float kasa;
 
 	//metody

@@ -1,5 +1,16 @@
-dad
-deas
-99110464564
-123
-123
+Imie: 123
+Nazwisko: 123
+Pesel: 991104
+Nazwa uzytkownika: 123
+Haslo: 123
+Damian
+Kociolek
+99110411111
+Dako
+123456
+123456
+Damian
+Kociolek
+99110411111
+Dako
+123456
