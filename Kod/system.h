@@ -26,11 +26,6 @@ private:
 	string imie;
 	string nazwisko;
 	string pesel;			//lepiej niz double albo long, dla daty
-	struct data_urodzenia {
-		int rok;
-		int miesiac;
-		int dzien;
-	};
 	string login;
 	string haslo;
 
@@ -45,21 +40,23 @@ public:
 	vector <Odbiorca> odbiorcy;				//dodanie listy odbiorcow
 	vector <Historia> historia_operacji;	//historia operacji
 
-	Uzytkownik(string = "", string = "", string = "", string = "", string = "", long double = 0, float = 0);
+	Uzytkownik(string = "", string = "", string = "", string = "", string = "", int = 0, float = 0);
 	~Uzytkownik();			//destruktor
 	string Imie();
 	string Nazwisko();
 	string Pesel();
 	string Login();
 	string Haslo();
-
+	int rok;
+	int miesiac;
+	int dzien;
 	//string Urodzenie();
 
-	void dodaj();			//dodawanie konta
+	void Dodaj();			//dodawanie konta
 	void ZmianaHasla();
 	void WpiszHaslo();
 	int NrKonta();
-	void Saldo();
+	float Saldo();
 	void Wplata();
 	void Wyplata();
 	void Zapis();
@@ -71,17 +68,17 @@ class Pracownik :protected Uzytkownik { //dziedziczenie
 
 	//atrybuty (uprawnienia Admina)
 private:
-	string pLogin;
-	string pHaslo;
+
 
 	//metody i uprawnienia Admina
 public:
+	string pLogin;
+	string pHaslo;
 	Pracownik(string = "admin", string = "admin");
 	~Pracownik();
-	void dodaj();			//dodawanie konta
-	void ZmianaHasla();
-	void Odczyt();
-
+	string PracownikHaslo();
+	string PracownikLogin();
+	void DodajPracownika();
 };
 
 
@@ -92,20 +89,20 @@ public: //private moze?
 };
 
 
-class Konto {
-
-	//atrybuty
-public:
-	int numer_konta;
-	float saldo; //ewentualnie jako long i na koñcu podzielic przez 100
-	float kasa;
-
-	//metody
-	float Saldo();
-	void Wplata();
-	void Wyplata();
-
-};
+//class Konto {
+//
+//	//atrybuty
+//public:
+//	int numer_konta;
+//	float saldo; //ewentualnie jako long i na koñcu podzielic przez 100
+//	float kasa;
+//
+//	//metody
+//	float Saldo();
+//	void Wplata();
+//	void Wyplata();
+//
+//};
 
 
 class Historia {

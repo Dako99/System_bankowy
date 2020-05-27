@@ -1,4 +1,4 @@
-#include "system.h"
+Ôªø#include "system.h"
 #include <fstream>			//obsluga plikow
 #include <Windows.h>		//zamina koloru,
 #include <winbase.h>		//aktualny czas
@@ -8,9 +8,9 @@ using namespace std;
 static const int WIEK = 13;  //ustawienie min wieku dla uzytkownika
 
 //metody:
-//Konstruktor, destruktor i metody dostÍpu do zmiennych danych konta
+//Konstruktor, destruktor i metody dostƒôpu do zmiennych danych konta
 
-Uzytkownik::Uzytkownik(string i, string n, string l, string h, string p, long double nr, float s)
+Uzytkownik::Uzytkownik(string i, string n, string l, string h, string p, int nr, float s)
 {
 	imie = i;
 	nazwisko = n;
@@ -45,59 +45,20 @@ string Uzytkownik::Haslo()
 {
 	return this->haslo;
 };
+int Uzytkownik::NrKonta()
+{
+	srand(time(NULL));
+
+	int nr_Konta = (rand() % 100000) + 10001;
+	this->numer_konta = nr_Konta;
+	return this->numer_konta;
+};
 
 // end
 
-void DodanieDoWektora(vector<Uzytkownik>& lista, const string& zapis) // Funkcja, ktora wywoluje zapis danych aby dodawac kolejne
-																			// elementy do wektora
+
+void Uzytkownik::Dodaj()	//dodaje u≈ºytkownika do systemu
 {
-	int j = 0;
-	string Data[7];
-	for (auto& i : Data) {
-		while (zapis[j] != ' ' && j != zapis.length()) {
-			i += zapis[j];
-			j++;
-		}
-		j++;
-	}
-
-	long double NrKonta = atof(Data[5].c_str());
-	float saldo = atof(Data[6].c_str());
-
-	lista.push_back(Uzytkownik(Data[0], Data[1], Data[2], Data[3], Data[4], NrKonta, saldo));
-
-}
-
-void OdczytZPliku(vector<Uzytkownik>& lista) // Funkcja odczytuje z pliku dane oraz dodaje je do wektora
-{
-	if (lista.empty())
-	{
-		fstream plik;
-		string  linia;
-		try {
-			plik.open("BazaDanych.txt", ios::in);
-		}
-		catch (...) {
-			cout << "Baza danych nie istnieje" << endl;
-		}
-
-		while (getline(plik, linia)) {
-			DodanieDoWektora(lista, linia);
-		}
-		plik.close();
-
-	}
-}
-
-
-void Uzytkownik::dodaj()	//dodaje uøytkownika do systemu
-{
-	/*cout << "Nacisnij dowolny klawisz aby kontynuowac" << endl;
-	cout << "Nacisnij Esc aby anulowac" << endl;
-
-	int input = _getch();
-	if (input != 27) {*/
-
 	cout << "Podaj imie: " << endl;
 	cin >> this->imie;
 	cout << "Podaj nazwisko: " << endl;
@@ -105,24 +66,23 @@ void Uzytkownik::dodaj()	//dodaje uøytkownika do systemu
 
 	do
 	{
-		//=aoti(pesel.s_str());
 		cout << "Podaj pesel: " << endl;
 		cin >> this->pesel;
 
-		//poprawna d≥ugosc nr pesel
+		//poprawna d≈Çugosc nr pesel
 		while (stod(pesel) < 1000 || stod(pesel) > 100000000000) {
 			cout << "\a" << "Nieprawidlowy nr pesel" << endl;
 			cout << "Podaj pesel ponownie: " << endl;
 			cin >> this->pesel;
 		}
 
-		//obs≥uga daty urodzenia na podstawie nr pesel przy uzyciu substringa
+		//Obs≈Çuga daty urodzenia na podstawie nr pesel przy uzyciu substringa
 		int rk = stoi(pesel.substr(0, 2));
 		int msc = stoi(pesel.substr(2, 2));
 		int dz = stoi(pesel.substr(4, 2));
 
-		//ROCZNIK 00 and up
-		//Osoby urodzone w roku 2000 i pÛüniej majπ powiÍkszony numer miesiπca o liczbÍ 20
+		//ROCZNIK 00 i w gore
+		//Osoby urodzone w roku 2000 i pozniej maja powiekszony numer miesiaca o liczbe 20
 
 		SYSTEMTIME st;				// <----
 		GetLocalTime(&st);			// pobranie aktualnego roku
@@ -132,21 +92,16 @@ void Uzytkownik::dodaj()	//dodaje uøytkownika do systemu
 			msc = (msc - 20);
 			rk = rk + 2000;
 			if (rk > (st.wYear - WIEK)) {
-				cout << "\a" << "Zalozyc konto moze tylko osoba powyøej " << WIEK << " roku øycia" << endl;
-				dodaj();
+				cout << "\a" << "Zalozyc konto moze tylko osoba powyzej " << WIEK << " roku zycia" << endl;
+				Dodaj();
 			}
 		}
 		else cout << endl << "Nieprawidlowy nr pesel (problem z data)" << endl;
 
-		cout << endl << "*dla testow*" << endl;
-		cout << "rok: " << rk << endl;
-		cout << "msc: " << msc << endl;
-		cout << "dzien: " << dz << endl;
-		cout << "*dla testow*" << endl << endl;
-
 		if ((33 < msc < 20) && (13 > msc > 0) && (32 > dz > 0)) {
-			Uzytkownik::data_urodzenia nowy = { rk, msc, dz };
-			//dz = this->data_urodzenia.dzien;
+			this->dzien=dz;
+			this->miesiac=msc;
+			this->rok=rk;
 			break;
 		}
 	} while (1);
@@ -154,7 +109,7 @@ void Uzytkownik::dodaj()	//dodaje uøytkownika do systemu
 
 	cout << "Podaj login: " << endl;
 	cin >> this->login;
-	cout << "Podaj haslo: (ukryc przy wprowadzaniu)" << endl;
+	cout << "Podaj haslo: " << endl;
 	cin >> this->haslo;
 
 	string hasloPot;
@@ -182,6 +137,8 @@ void Uzytkownik::Zapis()
 	plik << this->pesel << endl;
 	plik << this->login << endl;
 	plik << this->haslo << endl;
+	plik << this->numer_konta << endl;
+	plik << this->saldo<< endl;
 
 	plik.close();
 
@@ -195,7 +152,7 @@ void Uzytkownik::Zapis()
 void Uzytkownik::Odczyt()
 {
 	string const plik("BazaDanych.txt");
-	ofstream mojStrumien(plik.c_str());
+	fstream mojStrumien(plik.c_str());
 
 	if (mojStrumien) {
 		mojStrumien << "Imie: " << this->imie << endl;
@@ -205,7 +162,7 @@ void Uzytkownik::Odczyt()
 		mojStrumien << "Haslo: " << this->haslo << endl;
 	}
 	else {
-		cout << "BLAD: nie moøna otworzyÊ pliku." << endl;
+		cout << "BLAD: nie mo≈ºna otworzyƒá pliku." << endl;
 	}
 
 
@@ -221,7 +178,7 @@ void Uzytkownik::Odczyt()
 	//	int aktualny_nr = 1;
 	//	string linia;
 	//	int nr_konta = 0;
-	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie uda≥o sie pobrac
+	//	while (getline(plik, linia)) //(skad,gdzie) 0=nie uda≈Ço sie pobrac
 	//	{
 	//		switch (aktualny_nr) {
 	//		case 1:imie = linia; break;
@@ -240,7 +197,8 @@ void Uzytkownik::Odczyt()
 };
 
 
-//poczatek obs≥ugi hasla
+
+//Poczatek obs≈Çugi hasla
 
 void Uzytkownik::ZmianaHasla()
 {
@@ -296,31 +254,20 @@ void Uzytkownik::WpiszHaslo()		// przyda sie jako funkcja do potwierdzania wplat
 
 	}
 
-	/*string HASLO;
-	cout << "W celu potwiedzenia wpisz haslo: ";
-	cin >> HASLO;
-	while (HASLO != this->haslo) {
-		cout << "Podane haslo jest bledne, sprobuj ponownie: ";
-		cin >> HASLO;
-		int input = _getch();
-		if (input == 27) break;
-	} */
-
 };
+//Koniec obs≈Çugi hasla
 
-//Koniec obs≥ugi hasla
 
+// Obs≈Çuga kasy
 
-// Obs≥uga kasy
-void Uzytkownik::Saldo()
+float Uzytkownik::Saldo()
 {
-	cout << "Twoj stan konta to: " << this->saldo << " zl" << endl;
-	system("PAUSE");
+	return this->saldo;
 };
 
 
 void Uzytkownik::Wyplata()
-{ //kwota
+{
 	float wyplata;
 	cout << "Podaj kwote jaka chcesz wyplacic" << endl;
 	cout << "0 aby wyjsc" << endl;
@@ -330,16 +277,15 @@ void Uzytkownik::Wyplata()
 		cout << "Podana kwota powoduje debet, badz jest ujemna, wprowadz inna: " << endl;
 		cin >> wyplata;
 	}
-	//	this->saldo -= wyplata;
 	this->saldo = this->saldo - wyplata;
-	if (wyplata = 0) cout << "Transakcja anulowana" << endl;
+	if (wyplata == 0) cout << "Transakcja anulowana" << endl;
 	else cout << "Pomyslnie wyplacono pieniadze." << endl;
 	system("PAUSE");
 };
 
 
 void Uzytkownik::Wplata()
-{	//kwota			//jeøeli uøytkownik ma kilka kont, to spytac na ktore konto
+{
 	float wplata;
 	cout << "Podaj kwote jaka chcesz wplacic" << endl;
 	cin >> wplata;
@@ -348,60 +294,14 @@ void Uzytkownik::Wplata()
 		cout << "Podana kwota jest ujemna, wprowadz inna: " << endl;
 		cin >> wplata;
 	}
-	//	this->saldo += wplata;
-	saldo = saldo + wplata;  //czy moze tak?
+	this->saldo = this->saldo + wplata;
 	cout << "Pomyslnie wplacono pieniadze." << endl;
 	system("PAUSE");
 };
+// koniec obs≈Çugi kasy
 
 
-// koniec obs≥ugi kasy
-
-
-//Nr konta mysle, ze starczy 5 cyfr, w long double miesci sie 15, z czego przez notacje z e nie wyswietli nawet 10
-//Numer konta zapisac mozna do innego pliku, przez co przy zapisie bazy, nie zmieni sie on po restarcie programu,
-//Wrzucam tylko tÍ funkcje, dzisiaj nocka zarwana i praktycznie 0 progresu :(
-
-int Uzytkownik::NrKonta()
-{
-	srand(time(NULL));
-
-	int nr_Konta = (rand() % 100000) + 10001;
-	this->numer_konta = nr_Konta;
-	return this->numer_konta;
-};
-
-
-// Plus jeszcze ta, ale tutaj wywala mi b≥πd prze≥adowania bufora i nie wiem co dalej, problem prawdopodobnie,
-//leøy w pÍtli.
-
-
-
-
-
-void Pracownik::dodaj()
-{
-	//jakieú bajerki
-	cout << "Witaj pracowniku" << endl;
-	Uzytkownik::dodaj();
-
-}
-
-void Pracownik::ZmianaHasla()
-{
-	//jakieú bajerki
-	cout << "Witaj pracowniku" << endl;
-	Uzytkownik::ZmianaHasla();
-
-}
-
-void Pracownik::Odczyt()
-{
-	//jakieú bajerki
-	cout << "Witaj pracowniku" << endl;
-	Uzytkownik::Odczyt();
-
-}
+//Pracownik
 
 Pracownik::Pracownik(string pL, string pH)
 {
@@ -412,4 +312,19 @@ Pracownik::Pracownik(string pL, string pH)
 Pracownik::~Pracownik()
 {
 
+}
+string Pracownik::PracownikHaslo()
+{
+	return this->pHaslo;
+};
+string Pracownik::PracownikLogin()
+{
+	return this->pLogin;
+};
+void Pracownik::DodajPracownika()
+{
+	string haslo = "admin";
+	string login = "admin";
+	this->pLogin = login;
+	this->pHaslo = haslo;
 }

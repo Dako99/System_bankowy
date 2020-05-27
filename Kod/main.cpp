@@ -1,79 +1,66 @@
 #include "system.h"
-
 #include <Windows.h>		//zamina koloru,
 #include <winbase.h>		//aktualny czas
 #include <fstream>			//obsluga plikow
 
+
 using namespace std;
-
-
-
-//spoko bedzie jakoœ to do system.cpp ->
-
-
-
-
-// <- spoko bedzie jakoœ to do system.cpp
 
 
 int main() {
 
 	setlocale(LC_ALL, "polish");		//jezyk polski
 
-	SYSTEMTIME st;
+	SYSTEMTIME st;						//funkcja czasu lokalnego
 	GetLocalTime(&st);
-	Historia nowa_operacja;
+	Historia nowa_operacja;				//tworzy obiekt w klasie historia
 
-	vector <Uzytkownik> lista;
-	Uzytkownik nowy;					//tworzy obiekt
-	Odbiorca nowy_odbiorca;
+	vector <Uzytkownik> lista;			//lista wektorowa klasy uÅ¼ytkownik, zawiera dane do kont 
+	Uzytkownik nowy;					//tworzy obiekt w klasie uzytkownik
+	Pracownik osoba;					//tworzy obiekt w klasie pracownik
+	vector <Pracownik> konto;			//lista wektorowa (zawierajÄ…ca jeden rekord, dane do logowania admina)
+	Odbiorca nowy_odbiorca;				//tworzy obiekt w klasie odbiorca
 	string login, haslo;
 
-	//cout << "Ladowanie Systemu Bankowego" << endl;	//progres bar
-	//float progres = 0.0;
-	//while (progres < 1.0) {
-	//	int bar = 50;
-	//	cout << "[";
-	//	int pos = bar * progres;
-	//	for (int i = 0; i < bar; ++i) {
-	//		if (i < pos) cout << "=";
-	//		else if (i == pos) cout << ">";
-	//		else cout << " ";
-	//	}
-	//	cout << "] " << int(progres * 101.0) << " %\r";
-	//	cout.flush();
-	//	progres += 0.005;		//przykladowow
-	//}
-	//cout << endl;
+	osoba.DodajPracownika();
+	konto.push_back(osoba);
 
-
-	//srand(time(null));
-	//int losowa = rand() % 1000 + 0;
-	//= ((float)rand() / rand_max) * 1;
+	cout << "Ladowanie Systemu Bankowego" << endl;	//progres bar
+	float progres = 0.0;
+	while (progres < 1.0) {
+		int bar = 50;
+		cout << "[";
+		int pos = bar * progres;
+		for (int i = 0; i < bar; ++i) {
+			if (i < pos) cout << "=";
+			else if (i == pos) cout << ">";
+			else cout << " ";
+		}
+		cout << "] " << int(progres * 101.0) << " %\r";
+		cout.flush();
+		progres += 0.005;		//przykladowow
+	}
+	cout << endl;
 
 	//menu glowne
 	int menu_c = 0;
-	int menu_min = 0, menu_max = 2;
-	//menu u¿ytkownika
+	int menu_min = 0, menu_max = 3;
+	//menu uÅ¼ytkownika
 	int menu_d = 0;
 	int m_min = 0, m_max = 10, in;
 
 	int a = 0;
-	float kwota;
+	float natalia=0;
 	int input;
 
 	while (true) {
 		system("cls");
-		/*HANDLE kolor;                             //zamina koloru
-		kolor = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(kolor, 10);
-		SetConsoleTextAttribute(kolor, 6);*/
 		cout << "Po menu poruszaj sie strzalkami gora / dol" << endl;
 		cout << "Aby wybrac opcje przy ktorej jest wskaznik nacisnij Enter" << endl;
 		cout << (menu_c == 0 ? "> " : "  ") << "Zaloguj sie do systemu" << endl;
 		cout << (menu_c == 1 ? "> " : "  ") << "Zaloz konto" << endl;
-
-		cout << (menu_c == 2 ? "> " : "  ") << "Zamknij program" << endl;
+		cout << (menu_c == 2 ? "> " : "  ") << "Administracja <weryfikacja>" << endl;
+		cout << (menu_c == 3 ? "> " : "  ") << "Zamknij program" << endl;
 
 		input = _getch();
 
@@ -85,17 +72,19 @@ int main() {
 		if (input == 13)										//Enter
 			switch (menu_c) {
 
-			case 0:		//zaloguj siê
+			case 0:		//zaloguj siÄ™
 				cout << "Podaj login" << endl;
 				cin >> login;
 				cout << "Podaj haslo (Fajnie jakby nie bylo widac)" << endl;
 				cin >> haslo;
-				for (int i = 0; i < lista.size(); i++) {
-					if (lista[i].Login() == login && lista[i].Haslo() == haslo) {
+				for (int i = 0; i < lista.size(); i++)
+				{
+					if (lista[i].Login() == login && lista[i].Haslo() == haslo)
+					{
 						cout << "Zalogowano" << endl;
 						system("PAUSE");
 						system("cls");
-						while (true) {
+						while (a == 0) {
 							system("cls");
 							cout << "Zalogowano na koncie " << lista[i].Imie() << " " << lista[i].Nazwisko() << endl;
 							cout << (menu_d == 0 ? "> " : "  ") << "Pokaz dane mojego konta" << endl;
@@ -125,8 +114,8 @@ int main() {
 									cout << "Imie: " << lista[i].Imie() << endl;
 									cout << "Nazwisko: " << lista[i].Nazwisko() << endl;
 									cout << "Nr PESEL: " << lista[i].Pesel() << endl;
-									cout << "Numer konta: " << "<Trzeba dodac>" << endl;
-									cout << "Data urodzenia: " << "<Trzeba dodac>" << endl;
+									cout << "Numer konta: " << lista[i].NrKonta() << endl;
+									cout << "Data urodzenia: " << lista[i].dzien <<"."<<lista[i].miesiac<<"."<<lista[i].rok<<" r." << endl;
 									system("PAUSE");
 									break;
 
@@ -148,18 +137,18 @@ int main() {
 
 
 								case 2: //pokaz zaplanowane operacje
-									lista[i].Odczyt();
+									//lista[i].Odczyt();
 									cout << "Imie: " << lista[i].Imie() << endl;
 									cout << "Nazwisko: " << lista[i].Nazwisko() << endl;
 									cout << "Nr PESEL: " << lista[i].Pesel() << endl;
-									cout << "Numer konta: " << "<Trzeba dodac>" << endl;
-									cout << "Data urodzenia: " << "<Trzeba dodac>" << endl;
+									cout << "Numer konta: " << lista[i].NrKonta() << endl;
+									cout << "Data urodzenia: " << lista[i].dzien << "." << lista[i].miesiac << "." << lista[i].rok << " r." << endl;
 									system("PAUSE");
 
 									break;
 								case 3:  //Dod. odbiorce przelewu
-								{ //ca³oœc w klamrze
-									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku s³ów nie zadzia³a
+								{ //caÅ‚oÅ›c w klamrze
+									cout << endl << "Podaj nazwe nowego odbiorcy (jednym slowem)" << endl;	//w przypadku kilku sÅ‚Ã³w nie zadziaÅ‚a
 									cin >> nowy_odbiorca.nazwa;
 
 									int zmienna = 0;
@@ -215,14 +204,15 @@ int main() {
 										cin >> nowy_odbiorca.numer_konta;
 									}
 
-									// czêœæ odpowiedzialna za zrobienie przelewu
-									cout << "Podaj kwotê jaka chcesz przelaæ odbiorcy ";
-									cin >> kwota;
-									/*if (kwota > lista[i].saldo()) {
+									// czÄ™Å›Ä‡ odpowiedzialna za zrobienie przelewu
+
+									cout << "Podaj kwot jaka chcesz przela odbiorcy: ";
+									cin >> natalia;
+									if (natalia > lista[i].Saldo()) {
 										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
 										system("PAUSE");
 										break;
-									}*/
+									}
 
 									SYSTEMTIME st;
 									GetLocalTime(&st);
@@ -271,12 +261,12 @@ int main() {
 										break;
 									}
 									cout << "Mysle.." << endl;
-									/*while (1) {
+									while (1) {
 										if (rok == st.wYear && miesiac == st.wMonth && dzien == st.wDay && godzina == st.wHour && minuta == st.wMinute) {
-											lista[i].saldo = lista[i].saldo - kwota;
+											//lista[i].Saldo() -= kwota;
 											for (int j = 0; j < lista.size(); j++) {
-												if (nowy_odbiorca.numer_konta == lista[j].numer_konta) {
-													lista[j].numer_konta = lista[j].numer_konta + kwota;
+												if (nowy_odbiorca.numer_konta == lista[j].NrKonta()) {
+													//lista[j].NrKonta() += kwota;
 													break;
 												}
 											}
@@ -284,7 +274,7 @@ int main() {
 
 											break;
 										}
-									}*/
+									}
 
 
 									nowa_operacja.rok = st.wYear;
@@ -292,7 +282,7 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									//nowa_operacja.kwota = kwota;
+									nowa_operacja.kwota = natalia;
 									nowa_operacja.operacja = "przelew";
 									nowa_operacja.konto_docelowe = nowy_odbiorca.numer_konta;
 									lista[i].historia_operacji.push_back(nowa_operacja);
@@ -311,7 +301,7 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									nowa_operacja.kwota = kwota;
+									nowa_operacja.kwota = natalia;
 									nowa_operacja.operacja = "wplata";
 									lista[i].historia_operacji.push_back(nowa_operacja);
 
@@ -325,15 +315,16 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									//nowa_operacja.kwota = kwota;
+									nowa_operacja.kwota = natalia;
 									nowa_operacja.operacja = "wyplata";
 									lista[i].historia_operacji.push_back(nowa_operacja);
 
 									break;
 								case 7: //sprawdz Saldo
-									lista[i].Saldo();
+									cout<<"Twoje saldo wynosi: "<<lista[i].Saldo()<<" zl"<<endl;
+									system("PAUSE");
 									break;
-								case 8: //Zmiana Has³a
+								case 8: //Zmiana HasÅ‚a
 									lista[i].WpiszHaslo();
 									lista[i].ZmianaHasla();
 									cout << "Zaloguj sie ponownie" << endl;
@@ -346,17 +337,10 @@ int main() {
 									a = 1;
 									login = "";
 									haslo = "";
-
-									//system("cls");
 									cout << "Trwa Wylogowywanie z Konta, Prosimy Czekac..." << endl;
-									Sleep(3000);
-									// system("cls");
+									Sleep(2137);
 									cout << "Wylogowanie Poprawne" << endl;
-									cout << "Dziekujemy i Do Zobaczenia" << endl;
-
-
-									main(); //no chyba tylko tyle wsytarczy?
-
+									cout << "Dziekujemy i do zobaczenia" << endl;
 								}
 								break;
 								case 10: //usun konto
@@ -373,7 +357,6 @@ int main() {
 								}
 						}
 					}
-
 				}
 				if (a == 0) {
 					cout << "Niepoprawne login lub haslo" << endl;
@@ -381,18 +364,53 @@ int main() {
 					// dodac: ponow probe, wyjdz 
 				}
 				else {
-					cout << "Pomyslnie wylogowano" << endl;
+					//cout << "Pomyslnie wylogowano" << endl;
 					system("PAUSE");
 					a = 0;
 				}
 				break; // brak niego to nie bug a feature
 
-			case 1:		//za³ó¿ konto
-				nowy.dodaj();
+			case 1:		//zaÅ‚Ã³Å¼ konto
+				nowy.Dodaj();
 				lista.push_back(nowy);
 				break;
+			case 2:
+				cout << "Podaj tajny login ADMINistratora: ";
+				cin >> login;
+				cout << "Podaj tajne haslo ADMINistratora: ";
+				cin >> haslo;
+				while(login == konto[0].PracownikLogin() && haslo == konto[0].PracownikHaslo())
+				{
+					int p;
+					cout << "Nacisnij 0 aby wylogowac" << endl;
+					cout << "Nacisnij 1 aby wyswietlic baze Klientow"<<endl;
 
-			case 2:		//zamknij program
+					cin >> p;
+					switch (p)
+					{
+					case 0:
+						login = "";
+						haslo = "";
+					break;
+
+					case 1:
+						cout << "Wczytuje dane..." << endl;
+						Sleep(2137);
+						for (int k = 0; k < lista.size(); k++)
+						{
+							cout << lista[k].Imie() << endl;
+							cout << lista[k].Nazwisko() << endl;
+							cout << lista[k].Pesel() << endl;
+							cout << lista[k].Login() << endl;
+							cout << lista[k].NrKonta() << endl;
+							cout << lista[k].Saldo() << endl;
+							cout << endl;
+						}
+					}
+				}
+				system("PAUSE");
+				break;
+			case 3:		//zamknij program
 				for (int j = 0; j < lista.size(); j++)
 				{
 					lista[j].Zapis();
