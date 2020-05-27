@@ -5,3 +5,10 @@ Etap 3
 
 Dokumentacja LaTeX:
 https://www.overleaf.com/read/vmdzjdptkgns
+
+Etap 4 i 5
+
+KOD
+
+Etap 6
+https://www.overleaf.com/read/tkmdgnvmd
