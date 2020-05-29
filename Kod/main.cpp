@@ -50,7 +50,7 @@ int main() {
 	int m_min = 0, m_max = 10, in;
 
 	int a = 0;
-	float natalia=0;
+	float kwota=0;
 	int input;
 
 	while (true) {
@@ -75,7 +75,7 @@ int main() {
 			case 0:		//zaloguj się
 				cout << "Podaj login" << endl;
 				cin >> login;
-				cout << "Podaj haslo (Fajnie jakby nie bylo widac)" << endl;
+				cout << "Podaj haslo" << endl;
 				cin >> haslo;
 				for (int i = 0; i < lista.size(); i++)
 				{
@@ -207,8 +207,8 @@ int main() {
 									// część odpowiedzialna za zrobienie przelewu
 
 									cout << "Podaj kwot jaka chcesz przela odbiorcy: ";
-									cin >> natalia;
-									if (natalia > lista[i].Saldo()) {
+									cin >> kwota;
+									if (kwota > lista[i].Saldo()) {
 										cout << "Nie masz wystarczajaco duzo srodkow na koncie :( ";
 										system("PAUSE");
 										break;
@@ -282,7 +282,7 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									nowa_operacja.kwota = natalia;
+									nowa_operacja.kwota = kwota;
 									nowa_operacja.operacja = "przelew";
 									nowa_operacja.konto_docelowe = nowy_odbiorca.numer_konta;
 									lista[i].historia_operacji.push_back(nowa_operacja);
@@ -301,7 +301,7 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									nowa_operacja.kwota = natalia;
+									nowa_operacja.kwota = kwota;
 									nowa_operacja.operacja = "wplata";
 									lista[i].historia_operacji.push_back(nowa_operacja);
 
@@ -315,7 +315,7 @@ int main() {
 									nowa_operacja.dzien = st.wDay;
 									nowa_operacja.godzina = st.wHour;
 									nowa_operacja.minuta = st.wMinute;
-									nowa_operacja.kwota = natalia;
+									nowa_operacja.kwota = kwota;
 									nowa_operacja.operacja = "wyplata";
 									lista[i].historia_operacji.push_back(nowa_operacja);
 

@@ -1,23 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Historia">
-    <Position X="5.5" Y="5.5" Width="1.5" />
+    <Position X="3.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAACAAAAAAAgAAACAAAAAAACAAAAAAAAIAAgAQAAAAA=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Konto">
-    <Position X="3.5" Y="5.5" Width="1.5" />
+  <Class Name="Pracownik">
+    <Position X="3.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIAQAAACABAAAAAAAAAAAAAAIAAAACAAA=</HashCode>
-      <FileName>system.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Pracownik" Collapsed="true">
-    <Position X="4.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAgAAAAAAQAAAAABAAABAAgAAAAABAA=</HashCode>
+      <HashCode>AAAAQAAAAAAAAAgAAAAAAAAAAAAAAAAAACgAAAAAhAg=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -26,20 +19,13 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Struct Name="Uzytkownik::data_urodzenia">
-        <TypeIdentifier>
-          <NewMemberFileName>system.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Struct>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AIAQAAAAEIAAAwCARCABARAAgAABIAABAAIQAQCCEAk=</HashCode>
+      <HashCode>gIASAAAAEIAAAwCARCABARACgAAAIAABAQIQAQCCEAk=</HashCode>
       <FileName>system.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Odbiorca">
-    <Position X="3.5" Y="3.5" Width="1.5" />
+    <Position X="3.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>system.h</FileName>

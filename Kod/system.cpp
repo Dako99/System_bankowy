@@ -1,6 +1,6 @@
 ﻿#include "system.h"
 #include <fstream>			//obsluga plikow
-#include <Windows.h>		//zamina koloru,
+#include <Windows.h>		//Windows czas,
 #include <winbase.h>		//aktualny czas
 
 using namespace std;
