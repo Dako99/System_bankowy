@@ -2,13 +2,14 @@
  Grupa nr5 Natalia Nadolna, Damian Kociołek, Kamil Pokrywa, Michał Wesołowski
 
 Etap 3
-
 Dokumentacja LaTeX:
 https://www.overleaf.com/read/vmdzjdptkgns
 
-Etap 4 i 5
 
+Etap 4 i 5
 KOD
 
+
 Etap 6
-https://www.overleaf.com/read/tkmdgnvmd
+Dokumentacja LaTeX:
+https://www.overleaf.com/read/gtgdxmxwndpk
